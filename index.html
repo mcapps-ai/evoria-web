@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evoria | Velas aromáticas en Paraguay</title>
+<meta name="description" content="Evoria crea experiencias a través de aromas: velas aromáticas, wax melts, placas aromáticas, difusores y más. Paraguay.">
+<meta property="og:title" content="Evoria | Aromas que evocan recuerdos">
+<meta property="og:description" content="Velas aromáticas, wax melts, placas aromáticas y difusores hechos en Paraguay.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f4eee6; --cream-2:#ece3d6; --paper:#fbf8f3;
+  --ink:#2b211b; --ink-2:#5b4a3e; --muted:#8a7866;
+  --gold:#a97c45; --gold-2:#c9a46a; --wood:#4a2f20;
+  --line:rgba(43,33,27,.12);
+  --serif:"Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans:"Jost", "Helvetica Neue", Arial, sans-serif;
+  --max:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+.eyebrow{font-family:var(--sans);font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);font-weight:500}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;color:var(--ink)}
+h2{font-size:clamp(2rem,5vw,3rem);margin:.35em 0 .4em}
+.lead{font-size:1.08rem;color:var(--ink-2);max-width:40em}
+.divider{display:flex;align-items:center;gap:12px;color:var(--gold);margin:18px 0}
+.divider:before,.divider:after{content:"";height:1px;width:48px;background:var(--gold-2)}
+.divider span{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.center{text-align:center}.center .divider{justify-content:center}.center .lead{margin:0 auto}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(251,248,243,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{font-family:var(--serif);font-size:1.45rem;letter-spacing:.42em;text-decoration:none;font-weight:500;padding-left:.42em}
+.nav ul{display:flex;gap:28px;list-style:none}
+.nav ul a{text-decoration:none;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+.nav ul a:hover{color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:2px;text-decoration:none;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;transition:.2s}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-dark:hover{background:var(--wood)}
+.btn-line{border:1px solid var(--ink);color:var(--ink)}
+.btn-line:hover{background:var(--ink);color:var(--cream)}
+.nav .btn{padding:10px 18px}
+
+/* hero */
+.hero{background:var(--cream);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding-top:64px;padding-bottom:72px}
+.hero .mono{width:96px;height:96px;object-fit:cover;border-radius:50%;margin-bottom:14px;box-shadow:0 0 0 1px var(--line)}
+.hero h1{font-size:clamp(2.6rem,6.2vw,4.4rem);font-weight:400}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero .lead{margin:18px 0 30px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
+.hero-img{position:relative}
+.hero-img img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;box-shadow:0 30px 60px -30px rgba(74,47,32,.45)}
+.hero-img .tag{position:absolute;left:-18px;bottom:28px;background:var(--paper);padding:14px 20px;font-family:var(--serif);font-style:italic;font-size:1.1rem;box-shadow:0 10px 30px -12px rgba(0,0,0,.25)}
+
+/* manifesto */
+.manifesto{padding:96px 0}
+.manifesto blockquote{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.35;color:var(--ink);max-width:24em;margin:0 auto}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.pillar{border-top:1px solid var(--line);padding-top:22px}
+.pillar h3{font-size:1.5rem;margin-bottom:6px}
+.pillar p{color:var(--ink-2);font-size:.97rem}
+
+/* products */
+.products{background:var(--cream);padding:96px 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:44px}
+.card{background:var(--paper);display:flex;flex-direction:column}
+.card figure{overflow:hidden;aspect-ratio:1/1}
+.card img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.card:hover img{transform:scale(1.04)}
+.card .body{padding:22px 22px 26px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{font-size:1.45rem}
+.card .aroma{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.card p{color:var(--ink-2);font-size:.95rem}
+.card .price{margin-top:auto;padding-top:10px;font-family:var(--serif);font-size:1.25rem;color:var(--ink)}
+
+/* feature */
+.feature{padding:96px 0}
+.feature .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.feature img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.feature ul{list-style:none;margin:22px 0 30px;display:grid;gap:10px}
+.feature li{display:flex;gap:12px;align-items:baseline;color:var(--ink-2)}
+.feature li:before{content:"";flex:0 0 6px;height:6px;border-radius:50%;background:var(--gold);transform:translateY(-2px)}
+
+.aroma-card{aspect-ratio:1/1;background:linear-gradient(160deg,#7a2e35,#3b1c1f);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px}
+.aroma-card .eyebrow{color:var(--gold-2);margin-bottom:14px}
+.aroma-card p{font-family:var(--serif);font-size:clamp(2rem,5vw,3rem);font-style:italic;line-height:1.1}
+.aroma-card .amp{font-family:var(--serif);color:var(--gold-2);font-size:1.6rem}
+.aroma-card small{margin-top:18px;letter-spacing:.2em;text-transform:uppercase;font-size:.7rem;color:rgba(244,238,230,.7)}
+.card .consult{margin-top:12px;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);text-decoration:none;font-weight:500;border-bottom:1px solid var(--gold-2);align-self:flex-start;padding-bottom:2px}
+.card .consult:hover{color:var(--ink);border-color:var(--ink)}
+.wa-float{position:fixed;right:18px;bottom:18px;z-index:30;width:56px;height:56px;border-radius:50%;background:#1f7a4d;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.4)}
+.wa-float svg{width:28px;height:28px;fill:#fff}
+/* moments */
+.moments{background:var(--wood);color:var(--cream);padding:96px 0}
+.moments h2{color:var(--cream)}
+.moments .lead{color:rgba(244,238,230,.8)}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(244,238,230,.15);margin-top:48px}
+.m{background:var(--wood);padding:30px 24px}
+.m .n{font-family:var(--serif);font-size:2.2rem;color:var(--gold-2);font-style:italic}
+.m h3{color:var(--cream);font-size:1.35rem;margin:6px 0}
+.m p{color:rgba(244,238,230,.75);font-size:.93rem}
+
+/* gallery */
+.gallery{padding:96px 0}
+.ggrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:40px}
+.ggrid a{display:block;overflow:hidden;aspect-ratio:1/1;position:relative}
+.ggrid img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.ggrid a:hover img{transform:scale(1.05)}
+
+/* contact */
+.contact{background:var(--cream-2);padding:88px 0}
+.contact .box{background:var(--paper);padding:56px 32px;text-align:center}
+.contact .ctas{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:28px}
+
+footer{background:var(--ink);color:rgba(244,238,230,.7);padding:44px 0;font-size:.88rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
+footer .brand{color:var(--cream);font-size:1.2rem}
+footer a{color:var(--gold-2);text-decoration:none}
+
+.draft{background:#fff4d6;color:#6b4e12;font-size:.8rem;text-align:center;padding:8px 16px;border-bottom:1px solid #ecd9a8}
+
+@media (max-width:900px){
+  .nav ul{display:none}
+  .hero .wrap,.feature .wrap{grid-template-columns:1fr;gap:36px}
+  .hero .wrap{padding-top:40px;padding-bottom:56px}
+  .hero-img{order:-1}
+  .hero-img .tag{left:12px;bottom:12px;font-size:.95rem}
+  .grid{grid-template-columns:1fr 1fr;gap:16px}
+  .pillars{grid-template-columns:1fr}
+  .mgrid{grid-template-columns:1fr 1fr}
+  .ggrid{grid-template-columns:repeat(3,1fr);gap:6px}
+  .manifesto,.products,.feature,.moments,.gallery{padding:64px 0}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  .grid{grid-template-columns:1fr}
+  .mgrid{grid-template-columns:1fr}
+  .ggrid{grid-template-columns:repeat(2,1fr)}
+  .nav .btn{display:none}
+  .contact .box{padding:40px 20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#inicio" aria-label="Evoria, inicio">EVORIA</a>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="#marca">La marca</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#momentos">Momentos</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-dark" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20hacer%20una%20consulta." target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</header>
+
+<main id="inicio">
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <img class="mono" src="img/monograma.webp" alt="Monograma de Evoria" width="220" height="165">
+      <p class="eyebrow">Velas aromáticas · Paraguay</p>
+      <h1>Aromas que evocan recuerdos y crean <em>momentos inolvidables</em>.</h1>
+      <p class="lead">Velas aromáticas, wax melts, placas aromáticas, difusores y más. Piezas pensadas para decorar, perfumar y convertirse en un recuerdo para llevar a casa.</p>
+      <div class="ctas">
+        <a class="btn btn-dark" href="#productos">Conocé la colección</a>
+        <a class="btn btn-line" href="https://www.instagram.com/evoriapy/" target="_blank" rel="noopener">Seguinos en Instagram</a>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="img/trio-mandarina-vainilla.webp" alt="Velas Evoria Mandarina Vainilla y Champagne Frutilla Vainilla junto a un difusor Frutilla Champagne sobre bandeja de madera" width="863" height="863" fetchpriority="high">
+      <div class="tag">Decora · Aromatiza · Recuerda</div>
+    </div>
+  </div>
+</section>
+
+<section class="manifesto center" id="marca">
+  <div class="wrap">
+    <p class="eyebrow">Nuestra esencia</p>
+    <div class="divider"><span></span></div>
+    <blockquote>“Creemos que los momentos más valiosos no suceden por casualidad: los creamos con intención.”</blockquote>
+    <p class="lead" style="margin-top:24px">Un aroma puede transformar un instante cotidiano en un momento especial. Por eso, en Evoria no creamos solo aromas: creamos experiencias que despiertan emociones, crean recuerdos y dan significado a los momentos que realmente importan.</p>
+    <div class="pillars" style="text-align:left">
+      <div class="pillar"><h3>Decora</h3><p>Cada pieza está pensada para verse bien en tu espacio, encendida o no.</p></div>
+      <div class="pillar"><h3>Aromatiza</h3><p>Fragancias envolventes para el hogar, la oficina o ese rincón que es solo tuyo.</p></div>
+      <div class="pillar"><h3>Recuerda</h3><p>Más que una vela: un detalle que se queda y se convierte en recuerdo.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="productos">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">Colección</p>
+      <h2>Nuestros productos</h2>
+      <p class="lead">Una selección de lo que hoy ofrecemos. Consultanos por aromas disponibles y novedades.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <figure><img src="img/vela-margarita-alhajero.webp" alt="Vela con margarita en alhajero de vidrio tallado sobre bandeja de madera" width="863" height="863"></figure>
+        <div class="body">
+          <span class="aroma">Frutilla Champagne &amp; Vainilla</span>
+          <h3>Vela con margarita en alhajero grande</h3>
+          <p>Elegancia y funcionalidad: una vez consumida, el alhajero se reutiliza para guardar tus pequeños tesoros.</p>
+          <span class="price">₲ 120.000</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Decora." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/vela-cafe-canela.webp" alt="Vela cuadrada grande de Evoria con granos de café y rama de canela" width="863" height="863"></figure>
+        <div class="body">
+          <span class="aroma">Café &amp; Canela</span>
+          <h3>Vela cuadrada grande</h3>
+          <p>Fragancia intensa y reconfortante, con notas dulces y especiadas que evocan hogar y tranquilidad.</p>
+          <span class="price">₲ 95.000</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Vela%20cuadrada%20grande." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/placas-aromaticas.webp" alt="Placas aromáticas colgantes Evoria con flores secas y cordón dorado" width="863" height="863"></figure>
+        <div class="body">
+          <span class="aroma">Sin fuego</span>
+          <h3>Placas aromáticas colgantes</h3>
+          <p>Perfuman de forma gradual durante semanas. Ideales para vestidores, placares, cajones, baños u oficinas.</p>
+          <span class="price">₲ 29.000</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Placas%20arom%C3%A1ticas%20colgantes." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/wax-melts.webp" alt="Bolsitas de wax melts Evoria de distintos colores y formas en bandeja de madera" width="863" height="863"></figure>
+        <div class="body">
+          <span class="aroma">Varias fragancias</span>
+          <h3>Wax melts</h3>
+          <p>Pequeños detalles que transforman cualquier espacio. Sin mecha, fáciles de usar.</p>
+          <span class="price">₲ 19.000</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Wax%20melts." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/hornito-wax-melts.webp" alt="Hornito de cerámica encendido junto a wax melts sobre bandeja de madera" width="863" height="863"></figure>
+        <div class="body">
+          <span class="aroma">Complemento</span>
+          <h3>Hornito de cerámica para wax melts</h3>
+          <p>Libera la fragancia de forma delicada y crea un ambiente cálido. Ideal para el hogar, la oficina o para regalar.</p>
+          <span class="price">₲ 25.000</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Hornito%20de%20cer%C3%A1mica%20para%20wax%20melts." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/collage-vela-celeste.webp" alt="Vela Evoria celeste en vaso de vidrio decorada con flores secas" width="647" height="863" style="object-position:center 40%"></figure>
+        <div class="body">
+          <span class="aroma">Nuevo: Cera Arena</span>
+          <h3>Velas decoradas y Cera Arena</h3>
+          <p>Cera suelta, práctica y versátil, para usar sobre agua y personalizar con flores u otros detalles.</p>
+          <span class="price">Consultar</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Velas%20decoradas%20y%20Cera%20Arena." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="feature">
+  <div class="wrap">
+    <div class="aroma-card" role="img" aria-label="Notas del aroma Encuentro: frutos rojos y sándalo"><span class="eyebrow">Notas</span><p>Frutos rojos</p><span class="amp">&amp;</span><p>Sándalo</p><small>Vela y difusor</small></div>
+    <div>
+      <p class="eyebrow">Aroma destacado</p>
+      <h2>Encuentro</h2>
+      <p class="lead">Nace para envolver esos momentos que se sienten en el corazón. La dulzura de los frutos rojos se encuentra con la calidez envolvente del sándalo: un aroma dulce, romántico y especial.</p>
+      <ul>
+        <li>Para compartir con la familia o conversar con amigas.</li>
+        <li>Para agasajar a tu persona favorita.</li>
+        <li>O simplemente para mimarte un poquito.</li>
+      </ul>
+      <a class="btn btn-dark" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%20el%20aroma%20Encuentro." target="_blank" rel="noopener">Consultar por Encuentro</a>
+    </div>
+  </div>
+</section>
+
+<section class="moments" id="momentos">
+  <div class="wrap">
+    <p class="eyebrow">Para cada ocasión</p>
+    <h2>No es solo aroma: es aroma, color y compañía.</h2>
+    <p class="lead">Crear un momento especial también es elegir con quién compartirlo.</p>
+    <div class="mgrid">
+      <div class="m"><span class="n">01</span><h3>En casa</h3><p>Calidez y bienestar para el día a día.</p></div>
+      <div class="m"><span class="n">02</span><h3>Con quienes querés</h3><p>Familia, amigos, alguien especial.</p></div>
+      <div class="m"><span class="n">03</span><h3>Para regalar</h3><p>Un detalle que decora y se recuerda.</p></div>
+      <div class="m"><span class="n">04</span><h3>Para vos</h3><p>Un momento de calma solo tuyo.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">@evoriapy</p>
+      <h2>Seguí nuestros momentos</h2>
+      <p class="lead">Novedades, consejos de uso y lanzamientos en Instagram.</p>
+    </div>
+    <div class="ggrid">
+      <a href="https://www.instagram.com/p/DbY2HNZkXZI/" target="_blank" rel="noopener" aria-label="Ver placas aromáticas en Instagram"><img src="img/placas-promo.webp" alt=""></a>
+      <a href="https://www.instagram.com/p/DbGLwAEEfxC/" target="_blank" rel="noopener" aria-label="Ver consejos en Instagram"><img src="img/tips-hornito.webp" alt="" style="object-position:center 30%"></a>
+      <a href="https://www.instagram.com/p/Dbnbj82jkRq/" target="_blank" rel="noopener" aria-label="Ver vela decorada en Instagram"><img src="img/collage-vela-celeste.webp" alt="" style="object-position:right top"></a>
+      <a href="https://www.instagram.com/p/Da25sDHO1uN/" target="_blank" rel="noopener" aria-label="Ver publicación en Instagram"><img src="img/trio-mandarina-vainilla.webp" alt=""></a>
+    </div>
+    <div class="center" style="margin-top:32px"><a class="btn btn-line" href="https://www.instagram.com/evoriapy/" target="_blank" rel="noopener">Ver Instagram</a></div>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="wrap">
+    <div class="box">
+      <p class="eyebrow">Tienda online · Paraguay</p>
+      <h2>¿Buscás un aroma o un regalo especial?</h2>
+      <p class="lead" style="margin:0 auto">Escribinos y te ayudamos a elegir.</p>
+      <div class="ctas">
+        <a class="btn btn-dark" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20hacer%20una%20consulta." target="_blank" rel="noopener">Escribinos por WhatsApp</a>
+        <a class="btn btn-line" href="https://ig.me/m/evoriapy" target="_blank" rel="noopener">Mensaje por Instagram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand">EVORIA</span>
+    <span>Aromas que evocan recuerdos y crean momentos inolvidables.</span>
+    <span><a href="https://www.instagram.com/evoriapy/" target="_blank" rel="noopener">Instagram @evoriapy</a> · <a href="https://wa.me/595991856553" target="_blank" rel="noopener">WhatsApp +595 991 856 553</a></span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20hacer%20una%20consulta." target="_blank" rel="noopener" aria-label="Escribir a Evoria por WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></a>
+</body>
+</html>
