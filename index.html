@@ -61,7 +61,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(251,248,243,.92);backdro
 /* hero */
 .hero{background:var(--cream);overflow:hidden}
 .hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding-top:64px;padding-bottom:72px}
-.hero .mono{width:96px;height:96px;object-fit:cover;border-radius:50%;margin-bottom:14px;box-shadow:0 0 0 1px var(--line)}
+.hero .logo{width:min(300px,72%);height:auto;margin:0 0 22px}
 .hero h1{font-size:clamp(2.6rem,6.2vw,4.4rem);font-weight:400}
 .hero h1 em{font-style:italic;color:var(--gold)}
 .hero .lead{margin:18px 0 30px}
@@ -108,6 +108,23 @@ header{position:sticky;top:0;z-index:20;background:rgba(251,248,243,.92);backdro
 .card .consult:hover{color:var(--ink);border-color:var(--ink)}
 .wa-float{position:fixed;right:18px;bottom:18px;z-index:30;width:56px;height:56px;border-radius:50%;background:#1f7a4d;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.4)}
 .wa-float svg{width:28px;height:28px;fill:#fff}
+.subcat{font-size:1.6rem;margin:48px 0 0;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.subcat + .grid{margin-top:24px}
+.aromas,.care{padding:96px 0}
+.aromas{background:var(--paper)}
+.aromas .wrap,.care .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
+.aromas img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:2px}
+.alist{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin:24px 0 30px}
+.alist li{border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column}
+.alist b{font-family:var(--serif);font-size:1.25rem;font-weight:500}
+.alist span{color:var(--ink-2);font-size:.9rem}
+.care{background:var(--cream)}
+.care img{width:100%;height:auto;max-width:520px;justify-self:center;border-radius:2px}
+.tips{list-style:none;display:grid;gap:12px;margin:22px 0}
+.tips li{padding-left:22px;position:relative;color:var(--ink-2)}
+.tips li:before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.care .note{font-size:.95rem;color:var(--ink-2);border-left:2px solid var(--gold-2);padding-left:14px}
+@media (max-width:900px){.aromas .wrap,.care .wrap{grid-template-columns:1fr;gap:32px}.aromas,.care{padding:64px 0}}
 /* moments */
 .moments{background:var(--wood);color:var(--cream);padding:96px 0}
 .moments h2{color:var(--cream)}
@@ -134,6 +151,9 @@ footer{background:var(--ink);color:rgba(244,238,230,.7);padding:44px 0;font-size
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center}
 footer .brand{color:var(--cream);font-size:1.2rem}
 footer a{color:var(--gold-2);text-decoration:none}
+footer .credit{margin-top:28px;padding-top:18px;border-top:1px solid rgba(244,238,230,.12);font-size:.78rem;color:rgba(244,238,230,.5)}
+footer .credit .mcapps{color:rgba(244,238,230,.85);letter-spacing:.08em;font-weight:500}
+footer .credit .mcapps:hover{color:var(--gold-2)}
 
 .draft{background:#fff4d6;color:#6b4e12;font-size:.8rem;text-align:center;padding:8px 16px;border-bottom:1px solid #ecd9a8}
 
@@ -141,7 +161,9 @@ footer a{color:var(--gold-2);text-decoration:none}
   .nav ul{display:none}
   .hero .wrap,.feature .wrap{grid-template-columns:1fr;gap:36px}
   .hero .wrap{padding-top:40px;padding-bottom:56px}
-  .hero-img{order:-1}
+  .hero .logo{width:min(240px,70%);margin:0 auto 18px;display:block}
+  .hero .wrap>div:first-child{text-align:center}
+  .hero .ctas{justify-content:center}
   .hero-img .tag{left:12px;bottom:12px;font-size:.95rem}
   .grid{grid-template-columns:1fr 1fr;gap:16px}
   .pillars{grid-template-columns:1fr}
@@ -151,7 +173,14 @@ footer a{color:var(--gold-2);text-decoration:none}
 }
 @media (max-width:560px){
   .wrap{padding:0 16px}
-  .grid{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr 1fr;gap:12px}
+  .card .body{padding:14px 12px 16px}
+  .card h3{font-size:1.12rem}
+  .card p{font-size:.84rem;line-height:1.5}
+  .card .aroma{font-size:.66rem;letter-spacing:.1em}
+  .card .price{font-size:1.1rem}
+  .card .consult{font-size:.64rem;letter-spacing:.1em}
+  .alist{grid-template-columns:1fr 1fr;gap:10px 14px}
   .mgrid{grid-template-columns:1fr}
   .ggrid{grid-template-columns:repeat(2,1fr)}
   .nav .btn{display:none}
@@ -170,7 +199,8 @@ footer a{color:var(--gold-2);text-decoration:none}
       <ul>
         <li><a href="#marca">La marca</a></li>
         <li><a href="#productos">Productos</a></li>
-        <li><a href="#momentos">Momentos</a></li>
+        <li><a href="#aromas">Aromas</a></li>
+        <li><a href="#cuidados">Cuidados</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
     </nav>
@@ -183,7 +213,7 @@ footer a{color:var(--gold-2);text-decoration:none}
 <section class="hero">
   <div class="wrap">
     <div>
-      <img class="mono" src="img/monograma.webp" alt="Monograma de Evoria" width="220" height="165">
+      <img class="logo" src="img/logo-evoria.webp" alt="Evoria" width="602" height="440">
       <p class="eyebrow">Velas aromáticas · Paraguay</p>
       <h1>Aromas que evocan recuerdos y crean <em>momentos inolvidables</em>.</h1>
       <p class="lead">Velas aromáticas, wax melts, placas aromáticas, difusores y más. Piezas pensadas para decorar, perfumar y convertirse en un recuerdo para llevar a casa.</p>
@@ -218,21 +248,22 @@ footer a{color:var(--gold-2);text-decoration:none}
     <div class="center">
       <p class="eyebrow">Colección</p>
       <h2>Nuestros productos</h2>
-      <p class="lead">Una selección de lo que hoy ofrecemos. Consultanos por aromas disponibles y novedades.</p>
+      <p class="lead">Velas, aromatizadores y complementos hechos en Paraguay. Consultanos por aromas disponibles y novedades.</p>
     </div>
+    <h3 class="subcat">Velas aromáticas</h3>
     <div class="grid">
       <article class="card">
-        <figure><img src="img/vela-margarita-alhajero.webp" alt="Vela con margarita en alhajero de vidrio tallado sobre bandeja de madera" width="863" height="863"></figure>
+        <figure><img src="img/vela-margarita-alhajero.webp" alt="Vela con margarita en alhajero de vidrio tallado sobre bandeja de madera" loading="lazy"></figure>
         <div class="body">
           <span class="aroma">Frutilla Champagne &amp; Vainilla</span>
           <h3>Vela con margarita en alhajero grande</h3>
-          <p>Elegancia y funcionalidad: una vez consumida, el alhajero se reutiliza para guardar tus pequeños tesoros.</p>
+          <p>Una vez consumida, el alhajero se reutiliza para guardar tus pequeños tesoros.</p>
           <span class="price">₲ 120.000</span>
-          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Decora." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Vela%20con%20margarita%20en%20alhajero%20grande." target="_blank" rel="noopener">Consultar por WhatsApp</a>
         </div>
       </article>
       <article class="card">
-        <figure><img src="img/vela-cafe-canela.webp" alt="Vela cuadrada grande de Evoria con granos de café y rama de canela" width="863" height="863"></figure>
+        <figure><img src="img/vela-cafe-canela.webp" alt="Vela cuadrada grande de Evoria con granos de café y rama de canela" loading="lazy"></figure>
         <div class="body">
           <span class="aroma">Café &amp; Canela</span>
           <h3>Vela cuadrada grande</h3>
@@ -242,27 +273,90 @@ footer a{color:var(--gold-2);text-decoration:none}
         </div>
       </article>
       <article class="card">
-        <figure><img src="img/placas-aromaticas.webp" alt="Placas aromáticas colgantes Evoria con flores secas y cordón dorado" width="863" height="863"></figure>
+        <figure><img src="img/vela-lavanda-mburucuya-card.webp" alt="Vela Evoria celeste con rosa de cera y brillos, vista desde arriba" loading="lazy"></figure>
+        <div class="body">
+          <span class="aroma">Lavanda &amp; Mburucuyá</span>
+          <h3>Vela con rosa</h3>
+          <p>Vela en vaso de vidrio con rosa de cera decorativa.</p>
+          <span class="price">₲ 45.000</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Vela%20con%20rosa." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/vela-pera-melon-menta-card.webp" alt="Dos velas Evoria verdes con corazones de cera azul" loading="lazy"></figure>
+        <div class="body">
+          <span class="aroma">Pera, Melón &amp; Menta</span>
+          <h3>Vela con corazones</h3>
+          <p>Vela en vaso de vidrio decorada con corazones de cera.</p>
+          <span class="price">₲ 45.000</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Vela%20con%20corazones." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/coleccion-conchas-card.webp" alt="Vela Evoria blanca con conchas de cera, vista desde arriba" loading="lazy" style="object-position:center"></figure>
+        <div class="body">
+          <span class="aroma">Colección Conchas</span>
+          <h3>Vela Colección Conchas</h3>
+          <p>Vela en vaso de vidrio decorada con conchas de cera.</p>
+          <span class="price">Consultar precio</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Vela%20Colecci%C3%B3n%20Conchas." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/vela-conchas-lila-card.webp" alt="Vela Evoria lila grande con conchas de cera verde y brillos" loading="lazy"></figure>
+        <div class="body">
+          <span class="aroma">Colección Conchas</span>
+          <h3>Vela grande lila con conchas</h3>
+          <p>Vaso amplio con varias mechas y conchas de cera decorativas.</p>
+          <span class="price">Consultar precio</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Vela%20grande%20lila%20con%20conchas." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/vela-cafe-vainilla-sandalo-card.webp" alt="Vela Evoria con granos de café sobre mesa con canela y anís" loading="lazy" style="object-position:center 60%"></figure>
+        <div class="body">
+          <span class="aroma">Café · Vainilla · Sándalo</span>
+          <h3>Vela con granos de café</h3>
+          <p>Vela en vaso de vidrio decorada con granos de café.</p>
+          <span class="price">Consultar precio</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Vela%20con%20granos%20de%20caf%C3%A9." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+      <article class="card">
+        <figure><img src="img/vela-frasco-card.webp" alt="Vela Evoria blanca en frasco de vidrio con tapa y etiqueta negra" loading="lazy"></figure>
+        <div class="body">
+          <span class="aroma">Consultar aromas</span>
+          <h3>Vela en frasco con tapa</h3>
+          <p>Frasco de vidrio con tapa y etiqueta Evoria.</p>
+          <span class="price">Consultar precio</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Vela%20en%20frasco%20con%20tapa." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </article>
+    </div>
+    <h3 class="subcat">Aromatizadores sin fuego y complementos</h3>
+    <div class="grid">
+      <article class="card">
+        <figure><img src="img/placas-trio.webp" alt="Placas aromáticas colgantes Evoria con flores secas y cordón dorado" loading="lazy"></figure>
         <div class="body">
           <span class="aroma">Sin fuego</span>
           <h3>Placas aromáticas colgantes</h3>
-          <p>Perfuman de forma gradual durante semanas. Ideales para vestidores, placares, cajones, baños u oficinas.</p>
+          <p>Perfuman de forma gradual durante semanas. Ideales para placares, roperos, baños, dormitorios, cajones u oficinas.</p>
           <span class="price">₲ 29.000</span>
           <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Placas%20arom%C3%A1ticas%20colgantes." target="_blank" rel="noopener">Consultar por WhatsApp</a>
         </div>
       </article>
       <article class="card">
-        <figure><img src="img/wax-melts.webp" alt="Bolsitas de wax melts Evoria de distintos colores y formas en bandeja de madera" width="863" height="863"></figure>
+        <figure><img src="img/wax-melts-uva-vainilla.webp" alt="Bolsita de wax melts Evoria celestes aroma Uva Vainilla" loading="lazy"></figure>
         <div class="body">
           <span class="aroma">Varias fragancias</span>
           <h3>Wax melts</h3>
-          <p>Pequeños detalles que transforman cualquier espacio. Sin mecha, fáciles de usar.</p>
+          <p>Cera fundente sin mecha, fácil de usar, en distintas formas y aromas.</p>
           <span class="price">₲ 19.000</span>
           <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Wax%20melts." target="_blank" rel="noopener">Consultar por WhatsApp</a>
         </div>
       </article>
       <article class="card">
-        <figure><img src="img/hornito-wax-melts.webp" alt="Hornito de cerámica encendido junto a wax melts sobre bandeja de madera" width="863" height="863"></figure>
+        <figure><img src="img/hornito-wax-melts.webp" alt="Hornito de cerámica encendido junto a wax melts sobre bandeja de madera" loading="lazy"></figure>
         <div class="body">
           <span class="aroma">Complemento</span>
           <h3>Hornito de cerámica para wax melts</h3>
@@ -272,15 +366,37 @@ footer a{color:var(--gold-2);text-decoration:none}
         </div>
       </article>
       <article class="card">
-        <figure><img src="img/collage-vela-celeste.webp" alt="Vela Evoria celeste en vaso de vidrio decorada con flores secas" width="647" height="863" style="object-position:center 40%"></figure>
+        <figure><img src="img/vela-celeste-flores-card.webp" alt="Vela Evoria celeste en vaso de vidrio decorada con flores secas" loading="lazy"></figure>
         <div class="body">
-          <span class="aroma">Nuevo: Cera Arena</span>
-          <h3>Velas decoradas y Cera Arena</h3>
+          <span class="aroma">Nuevo</span>
+          <h3>Cera Arena</h3>
           <p>Cera suelta, práctica y versátil, para usar sobre agua y personalizar con flores u otros detalles.</p>
-          <span class="price">Consultar</span>
-          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Velas%20decoradas%20y%20Cera%20Arena." target="_blank" rel="noopener">Consultar por WhatsApp</a>
+          <span class="price">Consultar precio</span>
+          <a class="consult" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%3A%20Cera%20Arena." target="_blank" rel="noopener">Consultar por WhatsApp</a>
         </div>
       </article>
+    </div>
+  </div>
+</section>
+
+<section class="aromas" id="aromas">
+  <div class="wrap">
+    <img src="img/wax-melts.webp" alt="Bandeja de madera con bolsitas de wax melts Evoria de distintos colores, formas y aromas" loading="lazy">
+    <div>
+      <p class="eyebrow">Wax melts</p>
+      <h2>Elegí tu aroma según el momento</h2>
+      <p class="lead">Cambiás el aroma, el color y la intención según el momento que quieras crear.</p>
+      <ul class="alist">
+        <li><b>Vainilla</b><span>Calidez y bienestar</span></li>
+        <li><b>Café</b><span>Enfoque y energía</span></li>
+        <li><b>Sándalo</b><span>Paz y equilibrio</span></li>
+        <li><b>Melón Pera</b><span>Frescura y armonía</span></li>
+        <li><b>Frutilla Champán</b><span>Dulzura y complicidad</span></li>
+        <li><b>Caribe</b><span>Vacaciones y libertad</span></li>
+        <li><b>Mandarina</b><span>Alegría y vitalidad</span></li>
+        <li><b>Lavanda</b><span>Relajación y serenidad</span></li>
+      </ul>
+      <a class="btn btn-dark" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%20los%20aromas%20de%20wax%20melts." target="_blank" rel="noopener">Consultar aromas</a>
     </div>
   </div>
 </section>
@@ -299,6 +415,25 @@ footer a{color:var(--gold-2);text-decoration:none}
       </ul>
       <a class="btn btn-dark" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20consultar%20por%20el%20aroma%20Encuentro." target="_blank" rel="noopener">Consultar por Encuentro</a>
     </div>
+  </div>
+</section>
+
+<section class="care" id="cuidados">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Cuidados</p>
+      <h2>Pequeños cuidados, grandes momentos</h2>
+      <ul class="tips">
+        <li>Encendela sobre una superficie firme y resistente al calor.</li>
+        <li>Mantenela fuera del alcance de niños y mascotas.</li>
+        <li>No la dejes encendida sin supervisión.</li>
+        <li>Evitá corrientes de aire.</li>
+        <li>Recortá la mecha a 0,5 a 1 cm antes de cada uso.</li>
+        <li>No muevas el frasco mientras la cera esté líquida o caliente.</li>
+      </ul>
+      <p class="note"><b>Wax melts:</b> colocá 1 o 2 piezas en la parte superior del hornito, encendé una vela de té en la base y, cuando el aroma disminuya, dejá enfriar la cera antes de reemplazarla. No agregues agua a la cera.</p>
+    </div>
+    <img src="img/cuidados-vela.webp" alt="Guía de cuidados de velas Evoria con vela de margarita en alhajero" loading="lazy">
   </div>
 </section>
 
@@ -324,10 +459,10 @@ footer a{color:var(--gold-2);text-decoration:none}
       <p class="lead">Novedades, consejos de uso y lanzamientos en Instagram.</p>
     </div>
     <div class="ggrid">
-      <a href="https://www.instagram.com/p/DbY2HNZkXZI/" target="_blank" rel="noopener" aria-label="Ver placas aromáticas en Instagram"><img src="img/placas-promo.webp" alt=""></a>
-      <a href="https://www.instagram.com/p/DbGLwAEEfxC/" target="_blank" rel="noopener" aria-label="Ver consejos en Instagram"><img src="img/tips-hornito.webp" alt="" style="object-position:center 30%"></a>
-      <a href="https://www.instagram.com/p/Dbnbj82jkRq/" target="_blank" rel="noopener" aria-label="Ver vela decorada en Instagram"><img src="img/collage-vela-celeste.webp" alt="" style="object-position:right top"></a>
-      <a href="https://www.instagram.com/p/Da25sDHO1uN/" target="_blank" rel="noopener" aria-label="Ver publicación en Instagram"><img src="img/trio-mandarina-vainilla.webp" alt=""></a>
+      <a href="https://www.instagram.com/p/DbY2HNZkXZI/" target="_blank" rel="noopener" aria-label="Ver placas aromáticas en Instagram"><img src="img/placas-donde-colocarla.webp" alt="" loading="lazy"></a>
+      <a href="https://www.instagram.com/p/DbY2HNZkXZI/" target="_blank" rel="noopener" aria-label="Ver placas para regalar en Instagram"><img src="img/placas-regalo.webp" alt="" loading="lazy"></a>
+      <a href="https://www.instagram.com/p/DbGLwAEEfxC/" target="_blank" rel="noopener" aria-label="Ver velas en Instagram"><img src="img/velas-celestes-trio.webp" alt="" loading="lazy" style="object-position:center 70%"></a>
+      <a href="https://www.instagram.com/evoriapy/" target="_blank" rel="noopener" aria-label="Ver wax melts en Instagram"><img src="img/wax-melts-cera-fundente.webp" alt="" loading="lazy" style="object-position:center 40%"></a>
     </div>
     <div class="center" style="margin-top:32px"><a class="btn btn-line" href="https://www.instagram.com/evoriapy/" target="_blank" rel="noopener">Ver Instagram</a></div>
   </div>
@@ -355,6 +490,10 @@ footer a{color:var(--gold-2);text-decoration:none}
     <span>Aromas que evocan recuerdos y crean momentos inolvidables.</span>
     <span><a href="https://www.instagram.com/evoriapy/" target="_blank" rel="noopener">Instagram @evoriapy</a> · <a href="https://wa.me/595991856553" target="_blank" rel="noopener">WhatsApp +595 991 856 553</a></span>
   </div>
+  <div class="wrap credit">
+    <span>© 2026 Evoria · Asunción, Paraguay</span>
+    <span>Sitio desarrollado por <a href="https://mm.mcapps.ai" target="_blank" rel="noopener" class="mcapps">MCAPPS.AI</a></span>
+  </div>
 </footer>
 
 <a class="wa-float" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20hacer%20una%20consulta." target="_blank" rel="noopener" aria-label="Escribir a Evoria por WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></a>
@@ -366,6 +505,7 @@ document.addEventListener('click',function(e){
   var origen=card?card.querySelector('h3').textContent.trim():(a.classList.contains('wa-float')?'Boton flotante':(sec?(sec.id||sec.className||sec.tagName):'otro'));
   if(h.indexOf('wa.me')>-1){gtag('event','whatsapp_click',{origen:origen,producto:card?origen:'general'});}
   else if(h.indexOf('instagram.com')>-1||h.indexOf('ig.me')>-1){gtag('event','instagram_click',{origen:origen});}
+  else if(h.indexOf('mcapps.ai')>-1){gtag('event','mcapps_click',{origen:'footer'});}
 });
 </script>
 </body>
