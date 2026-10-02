@@ -135,6 +135,28 @@ header{position:sticky;top:0;z-index:20;background:rgba(251,248,243,.92);backdro
 .tips li:before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--gold)}
 .care .note{font-size:.95rem;color:var(--ink-2);border-left:2px solid var(--gold-2);padding-left:14px}
 @media (max-width:900px){.aromas .wrap,.care .wrap{grid-template-columns:1fr;gap:32px}.aromas,.care{padding:64px 0}}
+.xmas-ribbon{background:#3b1c1f;color:#f4eee6;font-size:.8rem;letter-spacing:.04em;display:flex;justify-content:center;align-items:center;gap:14px;padding:9px 16px;text-align:center}
+.xmas-ribbon[hidden]{display:none}
+.xmas-ribbon b{color:var(--gold-2);font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:.74rem}
+.xmas-ribbon a{color:#f4eee6;border-bottom:1px solid var(--gold-2);text-decoration:none;white-space:nowrap}
+.xmas-modal{position:fixed;inset:0;z-index:60;background:rgba(43,33,27,.62);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .25s}
+.xmas-modal.open{opacity:1}
+.xmas-modal[hidden]{display:none}
+.xm-card{position:relative;background:var(--paper);max-width:440px;width:100%;padding:34px 28px 24px;text-align:center;border-top:3px solid var(--gold);box-shadow:0 30px 70px -20px rgba(0,0,0,.5);transform:translateY(12px);transition:transform .3s}
+.xmas-modal.open .xm-card{transform:none}
+.xm-close{position:absolute;top:8px;right:10px;background:none;border:0;font-size:1.8rem;line-height:1;color:var(--ink-2);cursor:pointer;padding:6px 10px}
+.xm-logo{width:120px;height:auto;margin:0 auto 10px;display:block}
+.xm-card h2{font-size:clamp(1.8rem,6vw,2.3rem);margin:.2em 0 .35em}
+.xm-card h2 em{color:var(--gold);font-style:italic;white-space:nowrap}
+.xr-short{display:none}
+.xm-text{color:var(--ink-2);margin-bottom:20px}
+.xm-ctas{display:grid;gap:10px}
+.xm-ctas .btn{justify-content:center}
+.xm-note{font-size:.8rem;color:var(--muted);margin-top:14px}
+.xm-skip{background:none;border:0;color:var(--ink-2);text-decoration:underline;font:inherit;font-size:.85rem;margin-top:8px;cursor:pointer;padding:6px}
+#xmasSnow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:70;display:none}
+#xmasSnow.on{display:block}
+@media (max-width:640px){.xmas-ribbon{font-size:.72rem;gap:10px;padding:8px 12px}.xmas-ribbon b{letter-spacing:.06em;font-size:.68rem}.xr-long{display:none}.xr-short{display:inline}.xm-card{padding:30px 20px 20px}}
 /* moments */
 .moments{background:var(--wood);color:var(--cream);padding:96px 0}
 .moments h2{color:var(--cream)}
@@ -203,6 +225,10 @@ footer .credit .mcapps:hover{color:var(--gold-2)}
 <body>
 
 
+<div class="xmas-ribbon" id="xmasRibbon" hidden>
+  <span><b>Navidad Evoria</b><span class="xr-long"> · Velas con aroma a coco para regalar · Pedidos empresariales desde 10 unidades</span><span class="xr-short"> · Regalos con aroma a coco</span></span>
+  <a href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quiero%20velas%20para%20regalar%20en%20Navidad." target="_blank" rel="noopener" data-origen="Navidad: franja">Consultar</a>
+</div>
 <header>
   <div class="wrap nav">
     <a class="brand" href="#inicio" aria-label="Evoria, inicio">EVORIA</a>
@@ -507,13 +533,66 @@ footer .credit .mcapps:hover{color:var(--gold-2)}
   </div>
 </footer>
 
+
+<div class="xmas-modal" id="xmasModal" role="dialog" aria-modal="true" aria-labelledby="xmasTitle" hidden>
+  <div class="xm-card">
+    <button class="xm-close" type="button" aria-label="Cerrar">&times;</button>
+    <img class="xm-logo" src="img/logo-evoria-oficial.webp" alt="Evoria" width="760" height="651">
+    <p class="eyebrow">Edición Navidad</p>
+    <h2 id="xmasTitle">Navidad con <em>aroma a coco</em></h2>
+    <p class="xm-text">Regalos que se encienden y se recuerdan. Pedidos para familia, amigos y empresas.</p>
+    <div class="xm-ctas">
+      <a class="btn btn-dark" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quiero%20velas%20para%20regalar%20en%20Navidad." target="_blank" rel="noopener" data-origen="Navidad: regalo">Quiero regalar en Navidad</a>
+      <a class="btn btn-line" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quiero%20cotizar%20regalos%20empresariales%20para%20Navidad." target="_blank" rel="noopener" data-origen="Navidad: empresas">Regalos empresariales</a>
+    </div>
+    <p class="xm-note">Pedidos empresariales desde 10 unidades. Cotización según cada caso.</p>
+    <button class="xm-skip" type="button">Ver la colección</button>
+  </div>
+</div>
+<canvas id="xmasSnow" aria-hidden="true"></canvas>
+<script>
+(function(){
+  var END=new Date('2026-12-16T00:00:00-03:00');
+  if(new Date()>=END) return;
+  var ribbon=document.getElementById('xmasRibbon'), modal=document.getElementById('xmasModal'), cv=document.getElementById('xmasSnow');
+  ribbon.hidden=false;
+  var lastFocus=null;
+  function closeModal(){ modal.classList.remove('open'); setTimeout(function(){modal.hidden=true;},250); document.removeEventListener('keydown',onKey); if(lastFocus) lastFocus.focus(); }
+  function onKey(e){ if(e.key==='Escape') closeModal(); }
+  modal.querySelector('.xm-close').addEventListener('click',closeModal);
+  modal.querySelector('.xm-skip').addEventListener('click',function(){ closeModal(); var p=document.getElementById('productos'); if(p) p.scrollIntoView({behavior:'smooth'}); });
+  modal.addEventListener('click',function(e){ if(e.target===modal) closeModal(); });
+  setTimeout(function(){
+    lastFocus=document.activeElement; modal.hidden=false; requestAnimationFrame(function(){modal.classList.add('open');});
+    modal.querySelector('.xm-close').focus(); document.addEventListener('keydown',onKey);
+    if(typeof gtag==='function') gtag('event','navidad_popup_view');
+  },700);
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ctx=cv.getContext('2d'), dpr=Math.min(window.devicePixelRatio||1,2), W,H, flakes=[], start=performance.now(), RUN=8000, FADE=1800;
+  function size(){ W=innerWidth; H=innerHeight; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+  size(); addEventListener('resize',size);
+  var n=W<600?45:85, cols=['255,255,255','201,164,106','255,250,240'];
+  for(var i=0;i<n;i++) flakes.push({x:Math.random()*W,y:Math.random()*-H,r:1+Math.random()*2.6,s:.6+Math.random()*1.4,d:Math.random()*Math.PI*2,c:cols[i%3],o:.55+Math.random()*.4});
+  cv.classList.add('on');
+  function tick(t){
+    var el=t-start, g=el>RUN?Math.max(0,1-(el-RUN)/FADE):1;
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<flakes.length;i++){ var f=flakes[i]; f.y+=f.s; f.d+=.012; f.x+=Math.sin(f.d)*.6;
+      if(f.y>H+5 && el<RUN){ f.y=-5; f.x=Math.random()*W; }
+      ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,6.283); ctx.fillStyle='rgba('+f.c+','+(f.o*g)+')';
+      ctx.shadowColor='rgba(120,90,50,'+(.35*g)+')'; ctx.shadowBlur=3; ctx.fill(); }
+    if(g>0) requestAnimationFrame(tick); else { cv.classList.remove('on'); ctx.clearRect(0,0,W,H); }
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
 <a class="wa-float" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quisiera%20hacer%20una%20consulta." target="_blank" rel="noopener" aria-label="Escribir a Evoria por WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></a>
 <script>
 document.addEventListener('click',function(e){
   var a=e.target.closest('a'); if(!a||typeof gtag!=='function') return;
   var h=a.getAttribute('href')||'';
   var card=a.closest('article'); var sec=a.closest('section,header,footer');
-  var origen=card?card.querySelector('h3').textContent.trim():(a.classList.contains('wa-float')?'Boton flotante':(sec?(sec.id||sec.className||sec.tagName):'otro'));
+  var origen=a.dataset.origen?a.dataset.origen:card?card.querySelector('h3').textContent.trim():(a.classList.contains('wa-float')?'Boton flotante':(sec?(sec.id||sec.className||sec.tagName):'otro'));
   if(h.indexOf('wa.me')>-1){gtag('event','whatsapp_click',{origen:origen,producto:card?origen:'general'});}
   else if(h.indexOf('instagram.com')>-1||h.indexOf('ig.me')>-1){gtag('event','instagram_click',{origen:origen});}
   else if(h.indexOf('mcapps.ai')>-1){gtag('event','mcapps_click',{origen:'footer'});}
