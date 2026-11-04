@@ -114,6 +114,10 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
 .audit{font-size:.75rem;color:var(--muted);margin:6px 0 18px}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:10px 18px;border-radius:6px;font-size:.88rem;opacity:0;transition:opacity .25s;pointer-events:none;z-index:60}
 .toast.show{opacity:1}
+.pw{position:relative;flex:1}
+.pw input{padding-right:48px}
+.eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:none;display:flex;align-items:center;justify-content:center;color:var(--ink-2)}
+.eye svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 16px;font-size:.92rem;color:var(--ink-2)}
 .chip[aria-checked="true"]{background:var(--ink);color:var(--cream);border-color:var(--ink)}
@@ -135,13 +139,12 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     <label for="lEmail">Correo</label>
     <input id="lEmail" type="email" autocomplete="email" required>
     <label for="lPass">Contraseña</label>
-    <input id="lPass" type="password" autocomplete="current-password" minlength="8" required>
+    <div class="pw"><input id="lPass" type="password" autocomplete="current-password" minlength="8" required><button type="button" class="eye" data-eye="lPass" aria-label="Mostrar contraseña"></button></div>
     <div class="row" style="margin-top:20px">
       <button class="btn btn-dark" type="submit" id="bIn">Ingresar</button>
     </div>
     <p class="msg" id="lMsg" role="alert"></p>
-    <p class="hint" style="margin-top:18px;text-align:center">¿Primera vez? Escribí tu correo autorizado, elegí una contraseña de 8 caracteres o más y tocá
-      <button type="button" id="bSignup" style="background:none;border:0;color:var(--gold);font-weight:500;text-decoration:underline">crear mi cuenta</button>.</p>
+    <p class="hint" style="margin-top:18px;text-align:center">¿Primera vez? Escribí tu correo, elegí una contraseña de 8 caracteres o más y tocá Ingresar. La cuenta se crea sola.</p>
   </form>
 </section>
 
@@ -176,6 +179,13 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     </div>
     <div class="stats" id="stats"></div>
     <div class="list" id="list"></div>
+    <details class="share" style="display:block;margin:-90px 0 120px">
+      <summary style="cursor:pointer;font-weight:500;font-size:.9rem">Cambiar mi contraseña</summary>
+      <div class="row" style="margin-top:12px;align-items:center">
+        <div class="pw"><input type="password" id="newPw" autocomplete="new-password" minlength="8" placeholder="Nueva contraseña (8 o más caracteres)" aria-label="Nueva contraseña"><button type="button" class="eye" data-eye="newPw" aria-label="Mostrar contraseña"></button></div>
+        <button class="btn btn-dark" type="button" id="bPw" style="flex:0 0 auto">Guardar</button>
+      </div>
+    </details>
   </div>
   <button class="btn btn-gold fab" id="bNew" type="button">+ Nuevo producto</button>
 </section>
@@ -224,6 +234,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
       <div class="toggles">
         <div class="toggle"><div><b>Mostrar en el catálogo</b><span>Apagado = queda guardado sin publicar</span></div>
           <label class="switch" style="margin:0"><input type="checkbox" id="ePub" aria-label="Mostrar en el catálogo"><i></i></label></div>
+        <div class="toggle"><div><b>Mostrar en la página principal</b><span>También aparece en la sección Productos del inicio de la web</span></div>
+          <label class="switch" style="margin:0"><input type="checkbox" id="eHome" aria-label="Mostrar en la página principal"><i></i></label></div>
         <div class="toggle"><div><b>Destacado</b><span>Aparece primero en el catálogo</span></div>
           <label class="switch" style="margin:0"><input type="checkbox" id="eDest" aria-label="Destacado"><i></i></label></div>
       </div>
@@ -272,6 +284,17 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     return m;
   }
 
+  var EYE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var EYE_OFF = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.5 10.5 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.1M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.8 9.8 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+  document.querySelectorAll('.eye').forEach(function(b){
+    b.innerHTML = EYE;
+    b.addEventListener('click', function(){
+      var i = $(b.dataset.eye), show = i.type === 'password';
+      i.type = show ? 'text' : 'password';
+      b.innerHTML = show ? EYE_OFF : EYE;
+      b.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    });
+  });
   /* ---------- sesión ---------- */
   async function boot(){
     var s = (await sb.auth.getSession()).data.session;
@@ -286,19 +309,24 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     if (!em || !pw) return msg($('lMsg'), 'Completá correo y contraseña.', 'err');
     $('bIn').disabled = true; msg($('lMsg'), 'Ingresando…');
     var r = await sb.auth.signInWithPassword({ email: em, password: pw });
+    if (r.error && /Invalid login/i.test(r.error.message)){
+      if (pw.length < 8){ $('bIn').disabled = false; return msg($('lMsg'), 'Correo o contraseña incorrectos. Si es tu primera vez, la contraseña debe tener 8 caracteres o más.', 'err'); }
+      var su = await sb.auth.signUp({ email: em, password: pw });
+      var nueva = su.data && su.data.user && su.data.user.identities && su.data.user.identities.length > 0;
+      if (su.error && !/already registered/i.test(su.error.message)){ $('bIn').disabled = false; return msg($('lMsg'), errText(su.error), 'err'); }
+      if (!nueva){ $('bIn').disabled = false; return msg($('lMsg'), 'Contraseña incorrecta. Si no la recordás, pedile a Mike que la restablezca.', 'err'); }
+      r = await sb.auth.signInWithPassword({ email: em, password: pw });
+    }
     $('bIn').disabled = false;
     if (r.error) return msg($('lMsg'), errText(r.error), 'err');
     msg($('lMsg'), ''); boot();
   });
-  $('bSignup').addEventListener('click', async function(){
-    var em = $('lEmail').value.trim().toLowerCase(), pw = $('lPass').value;
-    if (!em || pw.length < 8) return msg($('lMsg'), 'Escribí tu correo y una contraseña de 8 caracteres o más.', 'err');
-    msg($('lMsg'), 'Creando cuenta…');
-    var r = await sb.auth.signUp({ email: em, password: pw });
-    if (r.error && !/already registered/i.test(r.error.message)) return msg($('lMsg'), errText(r.error), 'err');
-    var s = await sb.auth.signInWithPassword({ email: em, password: pw });
-    if (s.error) return msg($('lMsg'), errText(s.error), 'err');
-    msg($('lMsg'), ''); boot();
+  $('bPw').addEventListener('click', async function(){
+    var pw = $('newPw').value;
+    if (pw.length < 8) return toast('La contraseña debe tener 8 caracteres o más');
+    var r = await sb.auth.updateUser({ password: pw });
+    if (r.error) return toast(errText(r.error));
+    $('newPw').value = ''; toast('Contraseña actualizada');
   });
   async function out(){ await sb.auth.signOut(); rows = []; show('vLogin'); }
   $('bOut').addEventListener('click', out); $('bOut2').addEventListener('click', out);
@@ -321,6 +349,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     $('list').innerHTML = l.map(function(p){
       var img = p.fotos[0] ? '<img src="' + esc(p.fotos[0]) + '" alt="" loading="lazy">' : '<div class="ph">E</div>';
       var st = p.publicado ? '<span class="pill pub">En catálogo</span>' : '<span class="pill draft">Oculto</span>';
+      if (p.publicado && p.en_inicio) st += ' <span class="pill pub">En inicio</span>';
       if (p.disponibilidad !== 'disponible') st += ' <span class="pill ' + (p.disponibilidad === 'agotado' ? 'out' : 'draft') + '">' + AV[p.disponibilidad] + '</span>';
       return '<button class="item" type="button" data-id="' + p.id + '">' + img +
         '<span><b>' + (p.destacado ? '★ ' : '') + esc(p.nombre) + '</b><span class="meta">' + esc(p.categoria) + (p.aroma ? ' · ' + esc(p.aroma) : '') + '</span><br>' + st + '</span>' +
@@ -370,6 +399,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     document.querySelector('input[name=disp][value="' + (p ? p.disponibilidad : 'disponible') + '"]').checked = true;
     $('ePub').checked = p ? p.publicado : true;
     $('eDest').checked = p ? p.destacado : false;
+    $('eHome').checked = p ? p.en_inicio : false;
     $('eOrden').value = p ? p.orden : nextOrder();
     $('eAudit').textContent = p && p.updated_at ? 'Última modificación: ' + new Date(p.updated_at).toLocaleString('es-PY') + (p.updated_by ? ' por ' + p.updated_by : '') : '';
     $('bDel').classList.toggle('hidden', !p); $('bPrev').classList.toggle('hidden', !p); $('bDel').classList.remove('armed'); $('bDel').textContent = 'Eliminar producto';
@@ -452,6 +482,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
       disponibilidad: document.querySelector('input[name=disp]:checked').value,
       publicado: $('ePub').checked,
       destacado: $('eDest').checked,
+      en_inicio: $('eHome').checked && $('ePub').checked,
       orden: parseInt($('eOrden').value, 10) || 100,
       fotos: fotos
     };

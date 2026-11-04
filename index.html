@@ -611,5 +611,33 @@ document.addEventListener('click',function(e){
   else if(h.indexOf('mcapps.ai')>-1){gtag('event','mcapps_click',{origen:'footer'});}
 });
 </script>
+<script>
+/* Productos del inicio: se toman del panel (Mostrar en la página principal). Si falla, queda la versión fija. */
+(function(){
+  var sec = document.getElementById('productos'); if (!sec || !window.fetch) return;
+  var WA = '595991856553';
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function gs(n){ return '₲ ' + Number(n).toLocaleString('es-PY').replace(/,/g,'.'); }
+  fetch('https://tpmsauhfxqplyakthgiz.supabase.co/rest/v1/productos?select=id,nombre,descripcion,categoria,aroma,precio,disponibilidad,fotos&publicado=eq.true&en_inicio=eq.true&order=destacado.desc,orden.asc,nombre.asc', {
+    headers: { apikey: 'sb_publishable_y5ra12FdfoesI1mlmPnFYQ_QYyY0o8d' }
+  }).then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(rows){
+    if (!rows.length) return;
+    var wrap = sec.querySelector('.wrap'), anchor = wrap.querySelector('a[href="catalogo/"]').parentNode;
+    wrap.querySelectorAll('.subcat, .grid').forEach(function(el){ el.remove(); });
+    var cats = []; rows.forEach(function(p){ if (cats.indexOf(p.categoria) < 0) cats.push(p.categoria); });
+    var html = cats.map(function(c){
+      return '<h3 class="subcat">' + esc(c) + '</h3><div class="grid">' + rows.filter(function(p){ return p.categoria === c; }).map(function(p){
+        var msg = 'Hola Evoria, quisiera consultar por: ' + p.nombre + '. https://evoria.mcapps.ai/catalogo/?p=' + p.id;
+        return '<article class="card"><figure>' + (p.fotos[0] ? '<img src="' + esc(p.fotos[0]) + '" alt="' + esc(p.nombre) + '" loading="lazy">' : '') + '</figure>' +
+          '<div class="body">' + (p.aroma ? '<span class="aroma">' + esc(p.aroma) + '</span>' : '') + '<h3>' + esc(p.nombre) + '</h3>' +
+          (p.descripcion ? '<p>' + esc(p.descripcion) + '</p>' : '') +
+          '<span class="price">' + (p.disponibilidad === 'agotado' ? 'Agotado' : p.precio != null ? gs(p.precio) : 'Consultar precio') + '</span>' +
+          '<a class="consult" href="https://wa.me/' + WA + '?text=' + encodeURIComponent(msg) + '" target="_blank" rel="noopener" data-prod="' + esc(p.nombre) + '">Consultar por WhatsApp</a></div></article>';
+      }).join('') + '</div>';
+    }).join('');
+    anchor.insertAdjacentHTML('beforebegin', html);
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
