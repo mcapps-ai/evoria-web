@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel Evoria</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+<meta name="theme-color" content="#2b211b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f4eee6; --cream-2:#ece3d6; --paper:#fbf8f3;
+  --ink:#2b211b; --ink-2:#5b4a3e; --muted:#8a7866;
+  --gold:#a97c45; --gold-2:#c9a46a; --line:rgba(43,33,27,.14);
+  --ok:#1f7a4d; --bad:#a3372f;
+  --serif:"Cormorant Garamond", Georgia, serif;
+  --sans:"Jost","Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+h1,h2{font-family:var(--serif);font-weight:500;line-height:1.15}
+.brand{font-family:var(--serif);font-size:1.3rem;letter-spacing:.38em;padding-left:.38em}
+
+.top{position:sticky;top:0;z-index:10;background:var(--ink);color:var(--cream)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:10px}
+.top small{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-2)}
+.top a,.top button.link{color:var(--cream);font-size:.8rem;text-decoration:none;background:none;border:0;opacity:.85}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:6px;padding:12px 18px;font-weight:500;font-size:.92rem}
+.btn-dark{background:var(--ink);color:var(--cream)}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-line{background:#fff;border:1px solid var(--line)}
+.btn-bad{background:#fff;color:var(--bad);border:1px solid rgba(163,55,47,.35)}
+.btn-bad.armed{background:var(--bad);color:#fff}
+.btn:disabled{opacity:.55;cursor:default}
+
+/* login */
+.login{max-width:400px;margin:9vh auto;background:var(--paper);padding:34px 26px;border-radius:10px;box-shadow:0 20px 50px -25px rgba(0,0,0,.35)}
+.login .brand{display:block;text-align:center;font-size:1.6rem;margin-bottom:4px}
+.login p.sub{text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:24px}
+label{display:block;font-size:.78rem;font-weight:500;letter-spacing:.04em;color:var(--ink-2);margin:14px 0 6px}
+input[type=text],input[type=email],input[type=password],input[type=number],input[type=search],select,textarea{width:100%;border:1px solid var(--line);border-radius:6px;padding:11px 12px;background:#fff;font-size:1rem}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-offset:0;border-color:transparent}
+.msg{font-size:.85rem;margin-top:12px;min-height:1.2em}
+.msg.err{color:var(--bad)} .msg.ok{color:var(--ok)}
+.row{display:flex;gap:10px}
+.row > *{flex:1}
+
+/* lista */
+.bar{display:flex;gap:10px;align-items:center;padding:18px 0 12px;flex-wrap:wrap}
+.bar h1{font-size:1.9rem;flex:1 1 auto}
+.bar input{flex:1 1 220px}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:.78rem;color:var(--ink-2)}
+.list{display:grid;gap:8px;padding-bottom:110px}
+.item{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px;cursor:pointer;text-align:left;width:100%}
+.item:hover{border-color:var(--gold-2)}
+.item img,.item .ph{width:64px;height:64px;object-fit:cover;border-radius:5px;background:var(--cream-2)}
+.item .ph{display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:var(--serif);font-size:1.4rem}
+.item b{display:block;font-weight:500;line-height:1.25}
+.item .meta{font-size:.78rem;color:var(--muted)}
+.item .right{text-align:right;font-size:.85rem;white-space:nowrap}
+.pill{display:inline-block;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;margin-top:4px;font-weight:500}
+.pill.pub{background:rgba(31,122,77,.12);color:var(--ok)}
+.pill.draft{background:var(--cream-2);color:var(--ink-2)}
+.pill.out{background:rgba(163,55,47,.1);color:var(--bad)}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:15;box-shadow:0 12px 28px -10px rgba(0,0,0,.45);border-radius:999px;padding:15px 22px}
+
+/* editor */
+.editor{position:fixed;inset:0;z-index:30;background:var(--cream);overflow:auto}
+.editor .head{position:sticky;top:0;z-index:2;background:var(--ink);color:var(--cream)}
+.editor .head .wrap{display:flex;align-items:center;gap:10px;height:56px}
+.editor .head h2{flex:1;font-size:1.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.editor .head button{background:none;border:0;color:var(--cream);font-size:.9rem}
+.form{background:var(--paper);border-radius:10px;padding:18px 16px 22px;margin:16px 0;border:1px solid var(--line)}
+.form h3{font-family:var(--sans);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.hint{font-size:.75rem;color:var(--muted);margin-top:5px}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:12px}
+.ph-item{position:relative;aspect-ratio:1/1;border-radius:6px;overflow:hidden;background:var(--cream-2)}
+.ph-item img{width:100%;height:100%;object-fit:cover}
+.ph-item .tag{position:absolute;left:6px;top:6px;background:var(--gold);color:#fff;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:3px}
+.ph-item .tools{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;background:linear-gradient(transparent,rgba(0,0,0,.6));padding:18px 4px 4px}
+.ph-item .tools button{background:rgba(255,255,255,.92);border:0;border-radius:4px;width:30px;height:28px;font-size:.85rem;line-height:1}
+.ph-item.loading{display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--ink-2)}
+.add-ph{aspect-ratio:1/1;border:1.5px dashed var(--gold-2);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold);font-size:.8rem;gap:4px;background:#fff;cursor:pointer;text-align:center;padding:6px}
+.add-ph span{font-size:1.8rem;line-height:1}
+.toggles{display:grid;gap:10px;margin-top:10px}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px}
+.toggle div b{display:block;font-weight:500;font-size:.95rem}
+.toggle div span{font-size:.78rem;color:var(--muted)}
+.switch{position:relative;width:48px;height:28px;flex:0 0 auto}
+.switch input{opacity:0;width:0;height:0}
+.switch i{position:absolute;inset:0;background:#cfc4b6;border-radius:999px;transition:.2s}
+.switch i:before{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}
+.switch input:checked + i{background:var(--ok)}
+.switch input:checked + i:before{transform:translateX(20px)}
+.switch input:focus-visible + i{outline:2px solid var(--gold-2)}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.seg label{flex:1;margin:0;text-align:center;padding:10px 4px;font-size:.85rem;cursor:pointer;color:var(--ink-2);letter-spacing:0}
+.seg input{position:absolute;opacity:0}
+.seg label:has(input:checked){background:var(--ink);color:var(--cream)}
+.savebar{position:sticky;bottom:0;background:rgba(244,238,230,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:12px 0 calc(12px + env(safe-area-inset-bottom))}
+.savebar .wrap{display:flex;gap:10px;align-items:center}
+.savebar .msg{flex:1;margin:0}
+.audit{font-size:.75rem;color:var(--muted);margin:6px 0 18px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:10px 18px;border-radius:6px;font-size:.88rem;opacity:0;transition:opacity .25s;pointer-events:none;z-index:60}
+.toast.show{opacity:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 16px;font-size:.92rem;color:var(--ink-2)}
+.chip[aria-checked="true"]{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.share{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.share b{flex:1 1 100%;font-weight:500;font-size:.9rem}
+.share .btn{padding:10px 14px;font-size:.85rem}
+.btn-wa{background:#1f7a4d;color:#fff}
+.form input,.form textarea{font-size:1.05rem}
+@media (max-width:560px){.bar h1{font-size:1.6rem}.item{grid-template-columns:56px 1fr auto}.item img,.item .ph{width:56px;height:56px}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<section id="vLogin" class="hidden">
+  <form class="login" id="fLogin" novalidate>
+    <span class="brand">EVORIA</span>
+    <p class="sub">Panel de catálogo</p>
+    <label for="lEmail">Correo</label>
+    <input id="lEmail" type="email" autocomplete="email" required>
+    <label for="lPass">Contraseña</label>
+    <input id="lPass" type="password" autocomplete="current-password" minlength="8" required>
+    <div class="row" style="margin-top:20px">
+      <button class="btn btn-dark" type="submit" id="bIn">Ingresar</button>
+    </div>
+    <p class="msg" id="lMsg" role="alert"></p>
+    <p class="hint" style="margin-top:18px;text-align:center">¿Primera vez? Escribí tu correo autorizado, elegí una contraseña de 8 caracteres o más y tocá
+      <button type="button" id="bSignup" style="background:none;border:0;color:var(--gold);font-weight:500;text-decoration:underline">crear mi cuenta</button>.</p>
+  </form>
+</section>
+
+<!-- SIN PERMISO -->
+<section id="vDenied" class="hidden">
+  <div class="login" style="text-align:center">
+    <span class="brand">EVORIA</span>
+    <p style="margin:18px 0">Esta cuenta no tiene permiso para editar el catálogo. Pedile a Mike que la habilite.</p>
+    <button class="btn btn-line" id="bOut2" type="button">Salir</button>
+  </div>
+</section>
+
+<!-- LISTA -->
+<section id="vList" class="hidden">
+  <div class="top"><div class="wrap">
+    <span class="brand">EVORIA</span>
+    <div style="display:flex;gap:16px;align-items:center">
+      <a href="../catalogo/" target="_blank" rel="noopener">Ver catálogo</a>
+      <button class="link" id="bOut" type="button">Salir</button>
+    </div>
+  </div></div>
+  <div class="wrap">
+    <div class="bar">
+      <h1>Productos</h1>
+      <input type="search" id="fq" placeholder="Buscar" aria-label="Buscar producto">
+    </div>
+    <div class="share">
+      <b>Compartir el catálogo</b>
+      <button class="btn btn-wa" type="button" id="shWa">WhatsApp</button>
+      <button class="btn btn-line" type="button" id="shCopy">Copiar link</button>
+      <button class="btn btn-line" type="button" id="shMore">Instagram y otras</button>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="list" id="list"></div>
+  </div>
+  <button class="btn btn-gold fab" id="bNew" type="button">+ Nuevo producto</button>
+</section>
+
+<!-- EDITOR -->
+<section id="vEdit" class="editor hidden" aria-labelledby="eTitle">
+  <div class="head"><div class="wrap">
+    <button type="button" id="bBack" aria-label="Volver a la lista">← Volver</button>
+    <h2 id="eTitle">Nuevo producto</h2>
+  </div></div>
+  <form class="wrap" id="fEdit" novalidate>
+    <div class="form">
+      <h3>Fotos</h3>
+      <p class="hint">Tocá "Agregar fotos" y elegí de la fototeca o sacá una foto. La primera es la principal; con ★ cambiás cuál es.</p>
+      <div class="photos" id="photos"></div>
+      <input type="file" id="fFiles" accept="image/*" multiple class="hidden">
+    </div>
+
+    <div class="form">
+      <h3>Datos</h3>
+      <label for="eNombre">Nombre *</label>
+      <input id="eNombre" type="text" maxlength="90" required placeholder="Ej: Vela con rosa">
+      <label for="ePrecio">Precio (₲)</label>
+      <input id="ePrecio" type="text" inputmode="numeric" placeholder="Dejar vacío si es a consultar">
+      <p class="hint" id="ePrecioHint"></p>
+      <label for="eAroma">Aroma</label>
+      <input id="eAroma" type="text" list="aromas" maxlength="120" placeholder="Ej: Lavanda &amp; Mburucuyá">
+      <datalist id="aromas"></datalist>
+      <label for="eDesc">Descripción</label>
+      <textarea id="eDesc" maxlength="700" placeholder="Una o dos frases: qué es y para quién es ideal"></textarea>
+    </div>
+
+    <div class="form">
+      <h3>Categoría</h3>
+      <div class="chips" id="eCats" role="radiogroup" aria-label="Categoría"></div>
+      <input id="eCat" type="text" maxlength="50" class="hidden" placeholder="Nombre de la nueva categoría" style="margin-top:10px">
+    </div>
+
+    <div class="form">
+      <h3>Estado</h3>
+      <div class="seg" role="radiogroup" aria-label="Disponibilidad" style="margin-top:12px">
+        <label><input type="radio" name="disp" value="disponible" checked>Disponible</label>
+        <label><input type="radio" name="disp" value="por_encargo">Por encargo</label>
+        <label><input type="radio" name="disp" value="agotado">Agotado</label>
+      </div>
+      <div class="toggles">
+        <div class="toggle"><div><b>Mostrar en el catálogo</b><span>Apagado = queda guardado sin publicar</span></div>
+          <label class="switch" style="margin:0"><input type="checkbox" id="ePub" aria-label="Mostrar en el catálogo"><i></i></label></div>
+        <div class="toggle"><div><b>Destacado</b><span>Aparece primero en el catálogo</span></div>
+          <label class="switch" style="margin:0"><input type="checkbox" id="eDest" aria-label="Destacado"><i></i></label></div>
+      </div>
+      <details style="margin-top:14px"><summary class="hint" style="cursor:pointer">Opciones avanzadas</summary>
+        <label for="eOrden">Orden en el catálogo</label>
+        <input id="eOrden" type="number" inputmode="numeric" min="0" max="9999" value="100">
+        <p class="hint">Número más bajo aparece antes.</p>
+      </details>
+    </div>
+    <p class="audit" id="eAudit"></p>
+    <button class="btn btn-line hidden" type="button" id="bPrev" style="margin:0 8px 28px 0">Vista previa</button>
+    <button class="btn btn-bad hidden" type="button" id="bDel" style="margin-bottom:28px">Eliminar producto</button>
+  </form>
+  <div class="savebar"><div class="wrap">
+    <p class="msg" id="eMsg" role="status"></p>
+    <button class="btn btn-dark" type="button" id="bSave">Guardar</button>
+  </div></div>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function(){
+  var SB_URL = 'https://tpmsauhfxqplyakthgiz.supabase.co';
+  var SB_KEY = 'sb_publishable_y5ra12FdfoesI1mlmPnFYQ_QYyY0o8d';
+  var BUCKET = 'productos';
+  var sb = supabase.createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
+
+  var $ = function(id){ return document.getElementById(id); };
+  var rows = [], cur = null, fotos = [], uploading = 0, dirty = false;
+  var AV = { disponible:'Disponible', por_encargo:'Por encargo', agotado:'Agotado' };
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function gs(n){ return '₲ ' + Number(n).toLocaleString('es-PY').replace(/,/g,'.'); }
+  function show(v){ ['vLogin','vDenied','vList','vEdit'].forEach(function(x){ $(x).classList.toggle('hidden', x !== v && !(v === 'vEdit' && x === 'vList')); }); }
+  function toast(t){ var el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(function(){ el.classList.remove('show'); }, 2200); }
+  function msg(el, t, kind){ el.textContent = t || ''; el.className = 'msg' + (kind ? ' ' + kind : ''); }
+  function errText(e){
+    var m = (e && (e.message || e.error_description)) || String(e);
+    if (/Invalid login/i.test(m)) return 'Correo o contraseña incorrectos.';
+    if (/Email not confirmed/i.test(m)) return 'Este correo no está autorizado. Pedile a Mike que lo habilite.';
+    if (/already registered/i.test(m)) return 'Ese correo ya tiene cuenta. Tocá Ingresar.';
+    if (/rate limit/i.test(m)) return 'Demasiados intentos. Esperá unos minutos.';
+    if (/Password should be/i.test(m)) return 'La contraseña debe tener al menos 8 caracteres.';
+    if (/row-level security|permission/i.test(m)) return 'Sin permiso para guardar. Volvé a ingresar.';
+    return m;
+  }
+
+  /* ---------- sesión ---------- */
+  async function boot(){
+    var s = (await sb.auth.getSession()).data.session;
+    if (!s) return show('vLogin');
+    var r = await sb.rpc('is_admin');
+    if (r.error || !r.data) return show('vDenied');
+    show('vList'); load();
+  }
+  $('fLogin').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var em = $('lEmail').value.trim().toLowerCase(), pw = $('lPass').value;
+    if (!em || !pw) return msg($('lMsg'), 'Completá correo y contraseña.', 'err');
+    $('bIn').disabled = true; msg($('lMsg'), 'Ingresando…');
+    var r = await sb.auth.signInWithPassword({ email: em, password: pw });
+    $('bIn').disabled = false;
+    if (r.error) return msg($('lMsg'), errText(r.error), 'err');
+    msg($('lMsg'), ''); boot();
+  });
+  $('bSignup').addEventListener('click', async function(){
+    var em = $('lEmail').value.trim().toLowerCase(), pw = $('lPass').value;
+    if (!em || pw.length < 8) return msg($('lMsg'), 'Escribí tu correo y una contraseña de 8 caracteres o más.', 'err');
+    msg($('lMsg'), 'Creando cuenta…');
+    var r = await sb.auth.signUp({ email: em, password: pw });
+    if (r.error && !/already registered/i.test(r.error.message)) return msg($('lMsg'), errText(r.error), 'err');
+    var s = await sb.auth.signInWithPassword({ email: em, password: pw });
+    if (s.error) return msg($('lMsg'), errText(s.error), 'err');
+    msg($('lMsg'), ''); boot();
+  });
+  async function out(){ await sb.auth.signOut(); rows = []; show('vLogin'); }
+  $('bOut').addEventListener('click', out); $('bOut2').addEventListener('click', out);
+
+  /* ---------- lista ---------- */
+  async function load(){
+    $('list').innerHTML = '<p class="hint">Cargando…</p>';
+    var r = await sb.from('productos').select('*').order('destacado', { ascending:false }).order('orden').order('nombre');
+    if (r.error){ $('list').innerHTML = '<p class="msg err">' + esc(errText(r.error)) + '</p>'; return; }
+    rows = r.data; renderList(); fillLists();
+  }
+  function renderList(){
+    var q = $('fq').value.trim().toLowerCase();
+    var l = rows.filter(function(p){ return !q || (p.nombre + ' ' + (p.aroma||'') + ' ' + p.categoria).toLowerCase().indexOf(q) > -1; });
+    var pub = rows.filter(function(p){ return p.publicado; }).length;
+    var sinP = rows.filter(function(p){ return p.publicado && p.precio == null; }).length;
+    var sinF = rows.filter(function(p){ return !p.fotos.length; }).length;
+    $('stats').innerHTML = '<span class="stat">' + rows.length + ' productos</span><span class="stat">' + pub + ' en catálogo</span>' +
+      (sinP ? '<span class="stat">Sin precio: ' + sinP + '</span>' : '') + (sinF ? '<span class="stat">Sin foto: ' + sinF + '</span>' : '');
+    $('list').innerHTML = l.map(function(p){
+      var img = p.fotos[0] ? '<img src="' + esc(p.fotos[0]) + '" alt="" loading="lazy">' : '<div class="ph">E</div>';
+      var st = p.publicado ? '<span class="pill pub">En catálogo</span>' : '<span class="pill draft">Oculto</span>';
+      if (p.disponibilidad !== 'disponible') st += ' <span class="pill ' + (p.disponibilidad === 'agotado' ? 'out' : 'draft') + '">' + AV[p.disponibilidad] + '</span>';
+      return '<button class="item" type="button" data-id="' + p.id + '">' + img +
+        '<span><b>' + (p.destacado ? '★ ' : '') + esc(p.nombre) + '</b><span class="meta">' + esc(p.categoria) + (p.aroma ? ' · ' + esc(p.aroma) : '') + '</span><br>' + st + '</span>' +
+        '<span class="right">' + (p.precio != null ? gs(p.precio) : '<span class="meta">Sin precio</span>') + '</span></button>';
+    }).join('') || '<p class="hint">Sin resultados.</p>';
+  }
+  var selCat = 'Velas aromáticas';
+  function catList(){ var c = ['Velas aromáticas','Aromatizadores sin fuego','Complementos','Regalos']; rows.forEach(function(p){ if (c.indexOf(p.categoria) < 0) c.push(p.categoria); }); return c; }
+  function renderCats(v){
+    var c = catList(); if (v && v !== '__nueva' && c.indexOf(v) < 0) c.push(v);
+    selCat = v;
+    $('eCats').innerHTML = c.concat(['__nueva']).map(function(x){
+      return '<button type="button" class="chip" role="radio" aria-checked="' + (x === v) + '" data-cat="' + esc(x) + '">' + (x === '__nueva' ? '+ Nueva' : esc(x)) + '</button>';
+    }).join('');
+    $('eCat').classList.toggle('hidden', v !== '__nueva');
+    if (v === '__nueva') $('eCat').focus();
+  }
+  $('eCats').addEventListener('click', function(e){ var b = e.target.closest('.chip'); if (b){ dirty = true; renderCats(b.dataset.cat); } });
+  var CAT_URL = 'https://evoria.mcapps.ai/catalogo/';
+  var CAT_TXT = 'Conocé el catálogo de Evoria, velas aromáticas hechas en Paraguay: ' + CAT_URL;
+  $('shWa').addEventListener('click', function(){ window.open('https://wa.me/?text=' + encodeURIComponent(CAT_TXT), '_blank'); });
+  $('shCopy').addEventListener('click', function(){ navigator.clipboard.writeText(CAT_URL).then(function(){ toast('Link copiado: pegalo en Instagram, historias o donde quieras'); }); });
+  $('shMore').addEventListener('click', function(){
+    if (navigator.share) navigator.share({ title: 'Catálogo Evoria', text: 'Velas aromáticas hechas en Paraguay', url: CAT_URL }).catch(function(){});
+    else navigator.clipboard.writeText(CAT_URL).then(function(){ toast('Link copiado'); });
+  });
+  function fillLists(){
+    var a = {};
+    rows.forEach(function(p){ if (p.aroma) a[p.aroma] = 1; });
+    $('aromas').innerHTML = Object.keys(a).map(function(x){ return '<option value="' + esc(x) + '">'; }).join('');
+  }
+  $('fq').addEventListener('input', renderList);
+  $('list').addEventListener('click', function(e){ var b = e.target.closest('.item'); if (b) edit(rows.find(function(p){ return p.id === b.dataset.id; })); });
+  $('bNew').addEventListener('click', function(){ edit(null); });
+
+  /* ---------- editor ---------- */
+  function edit(p){
+    cur = p; dirty = false;
+    fotos = p ? p.fotos.slice() : [];
+    $('eTitle').textContent = p ? p.nombre : 'Nuevo producto';
+    $('eNombre').value = p ? p.nombre : '';
+    $('eDesc').value = p ? (p.descripcion || '') : '';
+    renderCats(p ? p.categoria : 'Velas aromáticas');
+    $('eAroma').value = p ? (p.aroma || '') : '';
+    $('ePrecio').value = p && p.precio != null ? Number(p.precio).toLocaleString('es-PY').replace(/,/g,'.') : '';
+    priceHint();
+    document.querySelector('input[name=disp][value="' + (p ? p.disponibilidad : 'disponible') + '"]').checked = true;
+    $('ePub').checked = p ? p.publicado : true;
+    $('eDest').checked = p ? p.destacado : false;
+    $('eOrden').value = p ? p.orden : nextOrder();
+    $('eAudit').textContent = p && p.updated_at ? 'Última modificación: ' + new Date(p.updated_at).toLocaleString('es-PY') + (p.updated_by ? ' por ' + p.updated_by : '') : '';
+    $('bDel').classList.toggle('hidden', !p); $('bPrev').classList.toggle('hidden', !p); $('bDel').classList.remove('armed'); $('bDel').textContent = 'Eliminar producto';
+    msg($('eMsg'), '');
+    renderPhotos(); show('vEdit'); $('vEdit').scrollTop = 0;
+  }
+  function nextOrder(){ var m = 0; rows.forEach(function(p){ if (p.orden < 1000 && p.orden > m) m = p.orden; }); return m + 10; }
+  function back(){
+    if (uploading) return toast('Esperá que terminen de subir las fotos');
+    if (dirty && !window.confirm('Hay cambios sin guardar. ¿Salir igual?')) return;
+    show('vList');
+  }
+  $('bBack').addEventListener('click', back);
+  $('fEdit').addEventListener('input', function(){ dirty = true; });
+  function parsePrice(){ var d = $('ePrecio').value.replace(/\D/g, ''); return d ? parseInt(d, 10) : null; }
+  function priceHint(){ var n = parsePrice(); $('ePrecioHint').textContent = n != null ? 'Se mostrará: ' + gs(n) : 'Se mostrará: Consultar precio'; }
+  $('ePrecio').addEventListener('input', function(){
+    var n = parsePrice(); this.value = n != null ? n.toLocaleString('es-PY').replace(/,/g,'.') : ''; priceHint();
+  });
+
+  function renderPhotos(){
+    var h = fotos.map(function(f, i){
+      return '<div class="ph-item"><img src="' + esc(f) + '" alt="Foto ' + (i+1) + '">' + (i ? '' : '<span class="tag">Principal</span>') +
+        '<div class="tools">' + (i ? '<button type="button" data-act="first" data-i="' + i + '" aria-label="Hacer principal" title="Hacer principal">★</button>' : '<span></span>') +
+        '<button type="button" data-act="del" data-i="' + i + '" aria-label="Quitar foto" title="Quitar">✕</button></div></div>';
+    }).join('');
+    for (var k = 0; k < uploading; k++) h += '<div class="ph-item loading">Subiendo…</div>';
+    h += '<button type="button" class="add-ph" id="bAddPh"><span>+</span>Agregar fotos</button>';
+    $('photos').innerHTML = h;
+  }
+  $('photos').addEventListener('click', function(e){
+    if (e.target.closest('#bAddPh')) return $('fFiles').click();
+    var b = e.target.closest('button[data-act]'); if (!b) return;
+    var i = +b.dataset.i;
+    if (b.dataset.act === 'first'){ var f = fotos.splice(i, 1)[0]; fotos.unshift(f); }
+    else fotos.splice(i, 1);
+    dirty = true; renderPhotos();
+  });
+  $('fFiles').addEventListener('change', async function(){
+    var files = Array.from(this.files || []); this.value = '';
+    for (var f of files){ uploading++; renderPhotos(); uploadOne(f); }
+  });
+  function shrink(file){
+    return new Promise(function(res){
+      var url = URL.createObjectURL(file), im = new Image();
+      im.onload = function(){
+        var max = 1600, w = im.naturalWidth, h = im.naturalHeight, s = Math.min(1, max / Math.max(w, h));
+        var c = document.createElement('canvas'); c.width = Math.round(w * s); c.height = Math.round(h * s);
+        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+        c.toBlob(function(b){
+          if (b && b.type === 'image/webp') return res({ blob:b, ext:'webp', type:'image/webp' });
+          c.toBlob(function(j){ res(j ? { blob:j, ext:'jpg', type:'image/jpeg' } : { blob:file, ext:(file.name.split('.').pop()||'jpg').toLowerCase(), type:file.type }); }, 'image/jpeg', .86);
+        }, 'image/webp', .85);
+      };
+      im.onerror = function(){ URL.revokeObjectURL(url); res({ blob:file, ext:(file.name.split('.').pop()||'jpg').toLowerCase(), type:file.type || 'image/jpeg' }); };
+      im.src = url;
+    });
+  }
+  async function uploadOne(file){
+    try{
+      var o = await shrink(file);
+      var path = new Date().toISOString().slice(0,10) + '/' + Date.now() + '-' + Math.random().toString(36).slice(2,8) + '.' + o.ext;
+      var r = await sb.storage.from(BUCKET).upload(path, o.blob, { contentType: o.type, cacheControl: '31536000', upsert: false });
+      if (r.error) throw r.error;
+      fotos.push(sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl); dirty = true;
+    } catch(e){ toast('No se pudo subir una foto: ' + errText(e)); }
+    uploading--; renderPhotos();
+  }
+
+  $('bSave').addEventListener('click', async function(){
+    if (uploading) return msg($('eMsg'), 'Esperá que terminen de subir las fotos.', 'err');
+    var nombre = $('eNombre').value.trim();
+    if (!nombre){ $('eNombre').focus(); return msg($('eMsg'), 'Falta el nombre.', 'err'); }
+    var data = {
+      nombre: nombre,
+      descripcion: $('eDesc').value.trim() || null,
+      categoria: selCat === '__nueva' ? ($('eCat').value.trim() || 'Velas aromáticas') : selCat,
+      aroma: $('eAroma').value.trim() || null,
+      precio: parsePrice(),
+      disponibilidad: document.querySelector('input[name=disp]:checked').value,
+      publicado: $('ePub').checked,
+      destacado: $('eDest').checked,
+      orden: parseInt($('eOrden').value, 10) || 100,
+      fotos: fotos
+    };
+    $('bSave').disabled = true; msg($('eMsg'), 'Guardando…');
+    var r = cur ? await sb.from('productos').update(data).eq('id', cur.id).select().single()
+                : await sb.from('productos').insert(data).select().single();
+    $('bSave').disabled = false;
+    if (r.error) return msg($('eMsg'), errText(r.error), 'err');
+    dirty = false; toast(data.publicado ? 'Guardado y visible en el catálogo' : 'Guardado (oculto)');
+    await load(); show('vList');
+  });
+
+  $('bPrev').addEventListener('click', function(){
+    if (dirty) toast('La vista previa muestra lo último guardado');
+    window.open('../catalogo/?preview=1&p=' + cur.id, '_blank');
+  });
+  $('bDel').addEventListener('click', async function(){
+    var b = this;
+    if (!b.classList.contains('armed')){ b.classList.add('armed'); b.textContent = 'Tocá de nuevo para confirmar'; setTimeout(function(){ b.classList.remove('armed'); b.textContent = 'Eliminar producto'; }, 4000); return; }
+    var r = await sb.from('productos').delete().eq('id', cur.id);
+    if (r.error) return msg($('eMsg'), errText(r.error), 'err');
+    var mine = cur.fotos.filter(function(u){ return u.indexOf('/storage/v1/object/public/' + BUCKET + '/') > -1; })
+      .map(function(u){ return decodeURIComponent(u.split('/' + BUCKET + '/')[1]); });
+    if (mine.length) await sb.storage.from(BUCKET).remove(mine);
+    toast('Producto eliminado'); await load(); show('vList');
+  });
+
+  window.addEventListener('beforeunload', function(e){ if (dirty || uploading){ e.preventDefault(); e.returnValue = ''; } });
+  boot();
+})();
+</script>
+</body>
+</html>
