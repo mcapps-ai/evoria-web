@@ -118,6 +118,14 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
 .pw input{padding-right:48px}
 .eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:none;display:flex;align-items:center;justify-content:center;color:var(--ink-2)}
 .eye svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabs{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:56px;z-index:9}
+.tabs .wrap{display:flex;gap:6px}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:14px 12px 11px;font-size:1rem;font-weight:500;color:var(--muted)}
+.tab[aria-selected="true"]{color:var(--ink);border-color:var(--gold)}
+.srow{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px}
+.srow img,.srow .ph{width:56px;height:56px;object-fit:cover;border-radius:5px;background:var(--cream-2)}
+.srow .ph{display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:var(--serif)}
+.srow.off{opacity:.55}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 16px;font-size:.92rem;color:var(--ink-2)}
 .chip[aria-checked="true"]{background:var(--ink);color:var(--cream);border-color:var(--ink)}
@@ -133,13 +141,13 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
 
 <!-- LOGIN -->
 <section id="vLogin" class="hidden">
-  <form class="login" id="fLogin" novalidate>
+  <form class="login" id="fLogin" method="post" action="./" novalidate>
     <span class="brand">EVORIA</span>
     <p class="sub">Panel de catálogo</p>
     <label for="lEmail">Correo</label>
-    <input id="lEmail" type="email" autocomplete="email" required>
+    <input id="lEmail" name="email" type="email" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required>
     <label for="lPass">Contraseña</label>
-    <div class="pw"><input id="lPass" type="password" autocomplete="current-password" minlength="8" required><button type="button" class="eye" data-eye="lPass" aria-label="Mostrar contraseña"></button></div>
+    <div class="pw"><input id="lPass" name="password" type="password" autocomplete="current-password" minlength="8" required><button type="button" class="eye" data-eye="lPass" aria-label="Mostrar contraseña"></button></div>
     <div class="row" style="margin-top:20px">
       <button class="btn btn-dark" type="submit" id="bIn">Ingresar</button>
     </div>
@@ -166,7 +174,11 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
       <button class="link" id="bOut" type="button">Salir</button>
     </div>
   </div></div>
-  <div class="wrap">
+  <div class="tabs"><div class="wrap">
+    <button type="button" class="tab" id="tProd" aria-selected="true">Catálogo</button>
+    <button type="button" class="tab" id="tTemp" aria-selected="false">Temporada</button>
+  </div></div>
+  <div class="wrap" id="tabProd">
     <div class="bar">
       <h1>Productos</h1>
       <input type="search" id="fq" placeholder="Buscar" aria-label="Buscar producto">
@@ -186,6 +198,36 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
         <button class="btn btn-dark" type="button" id="bPw" style="flex:0 0 auto">Guardar</button>
       </div>
     </details>
+  </div>
+  <div class="wrap hidden" id="tabTemp">
+    <div class="bar"><h1>Catálogo de temporada</h1></div>
+    <p class="hint" style="margin:-4px 0 14px">Un catálogo especial con su propio diseño y link. Cambiale el nombre y el tema en cada fecha: Navidad, Día de los Enamorados, Día de la Madre.</p>
+    <div class="form" style="margin-top:0">
+      <div class="toggle" style="margin-top:4px"><div><b>Temporada activa</b><span>Apagado = el link muestra "Próximamente"</span></div>
+        <label class="switch" style="margin:0"><input type="checkbox" id="sAct" aria-label="Temporada activa"><i></i></label></div>
+      <label for="sNom">Nombre de la temporada</label>
+      <input id="sNom" type="text" maxlength="40" placeholder="Ej: Navidad, Día de los Enamorados">
+      <label for="sTit">Título grande</label>
+      <input id="sTit" type="text" maxlength="80" placeholder="Ej: Navidad con aroma a coco">
+      <label for="sMsg">Mensaje</label>
+      <textarea id="sMsg" maxlength="240" placeholder="Una o dos frases para invitar a comprar"></textarea>
+      <label style="margin-top:16px">Diseño</label>
+      <div class="chips" id="sTemas" role="radiogroup" aria-label="Diseño"></div>
+      <div class="row" style="margin-top:18px">
+        <a class="btn btn-line" href="../temporada/?preview=1" target="_blank" rel="noopener" id="sVer" style="text-decoration:none;color:var(--ink)">Ver cómo queda</a>
+        <button class="btn btn-dark" type="button" id="sSave">Guardar temporada</button>
+      </div>
+      <p class="msg" id="sMsgOut" role="status"></p>
+    </div>
+    <div class="share">
+      <b>Compartir el catálogo de temporada</b>
+      <button class="btn btn-wa" type="button" id="stWa">WhatsApp</button>
+      <button class="btn btn-line" type="button" id="stCopy">Copiar link</button>
+      <button class="btn btn-line" type="button" id="stMore">Instagram y otras</button>
+    </div>
+    <div class="bar" style="padding-top:6px"><h1 style="font-size:1.5rem">Productos de la temporada</h1></div>
+    <p class="hint" style="margin:-6px 0 12px">Tocá el interruptor para sumar o sacar productos. Se guarda al instante. Solo aparecen los que también están en el catálogo.</p>
+    <div class="list" id="sList" style="padding-bottom:60px"></div>
   </div>
   <button class="btn btn-gold fab" id="bNew" type="button">+ Nuevo producto</button>
 </section>
@@ -234,6 +276,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
       <div class="toggles">
         <div class="toggle"><div><b>Mostrar en el catálogo</b><span>Apagado = queda guardado sin publicar</span></div>
           <label class="switch" style="margin:0"><input type="checkbox" id="ePub" aria-label="Mostrar en el catálogo"><i></i></label></div>
+        <div class="toggle"><div><b>Incluir en catálogo de temporada</b><span id="eTempLbl">Aparece también en el catálogo especial</span></div>
+          <label class="switch" style="margin:0"><input type="checkbox" id="eTemp" aria-label="Incluir en catálogo de temporada"><i></i></label></div>
         <div class="toggle"><div><b>Mostrar en la página principal</b><span>También aparece en la sección Productos del inicio de la web</span></div>
           <label class="switch" style="margin:0"><input type="checkbox" id="eHome" aria-label="Mostrar en la página principal"><i></i></label></div>
         <div class="toggle"><div><b>Destacado</b><span>Aparece primero en el catálogo</span></div>
@@ -295,13 +339,74 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
       b.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
     });
   });
+  /* ---------- temporada ---------- */
+  var season = null, selTema = 'navidad';
+  var TEMAS = [['navidad','Navidad'],['enamorados','Enamorados'],['madre','Día de la Madre'],['padre','Día del Padre'],['primavera','Primavera'],['neutro','Clásico']];
+  var TEMP_URL = 'https://evoria.mcapps.ai/temporada/';
+  function tab(t){
+    $('tProd').setAttribute('aria-selected', t === 'prod'); $('tTemp').setAttribute('aria-selected', t === 'temp');
+    $('tabProd').classList.toggle('hidden', t !== 'prod'); $('tabTemp').classList.toggle('hidden', t !== 'temp');
+    $('bNew').classList.toggle('hidden', t !== 'prod');
+    if (t === 'temp') renderSeason();
+  }
+  $('tProd').addEventListener('click', function(){ tab('prod'); });
+  $('tTemp').addEventListener('click', function(){ tab('temp'); });
+  async function loadSeason(){
+    var r = await sb.from('temporada').select('*').eq('id', 1).single();
+    if (!r.error) season = r.data;
+  }
+  function renderTemas(){
+    $('sTemas').innerHTML = TEMAS.map(function(t){ return '<button type="button" class="chip" role="radio" aria-checked="' + (t[0] === selTema) + '" data-tema="' + t[0] + '">' + t[1] + '</button>'; }).join('');
+  }
+  $('sTemas').addEventListener('click', function(e){ var b = e.target.closest('.chip'); if (b){ selTema = b.dataset.tema; renderTemas(); } });
+  function renderSeason(){
+    if (season){
+      $('sAct').checked = season.activa; $('sNom').value = season.nombre; $('sTit').value = season.titulo || ''; $('sMsg').value = season.mensaje || '';
+      selTema = season.tema;
+    }
+    renderTemas(); renderSeasonList();
+  }
+  function renderSeasonList(){
+    var l = rows.filter(function(p){ return p.publicado; }).sort(function(a, b){ return (b.en_temporada - a.en_temporada) || (a.orden - b.orden); });
+    $('sList').innerHTML = l.map(function(p){
+      return '<div class="srow' + (p.en_temporada ? '' : ' off') + '">' + (p.fotos[0] ? '<img src="' + esc(p.fotos[0]) + '" alt="" loading="lazy">' : '<div class="ph">E</div>') +
+        '<span><b style="font-weight:500">' + esc(p.nombre) + '</b><br><span class="meta">' + (p.precio != null ? gs(p.precio) : 'Sin precio') + '</span></span>' +
+        '<label class="switch" style="margin:0"><input type="checkbox" data-st="' + p.id + '"' + (p.en_temporada ? ' checked' : '') + ' aria-label="Incluir ' + esc(p.nombre) + '"><i></i></label></div>';
+    }).join('') || '<p class="hint">No hay productos en el catálogo todavía.</p>';
+  }
+  $('sList').addEventListener('change', async function(e){
+    var c = e.target.closest('[data-st]'); if (!c) return;
+    var p = rows.find(function(x){ return x.id === c.dataset.st; });
+    var r = await sb.from('productos').update({ en_temporada: c.checked }).eq('id', p.id);
+    if (r.error){ c.checked = !c.checked; return toast(errText(r.error)); }
+    p.en_temporada = c.checked; c.closest('.srow').classList.toggle('off', !c.checked);
+    toast(c.checked ? 'Agregado a ' + ((season && season.nombre) || 'la temporada') : 'Quitado de la temporada');
+  });
+  $('sSave').addEventListener('click', async function(){
+    var nom = $('sNom').value.trim();
+    if (!nom){ $('sNom').focus(); return msg($('sMsgOut'), 'Poné el nombre de la temporada.', 'err'); }
+    $('sSave').disabled = true; msg($('sMsgOut'), 'Guardando…');
+    var r = await sb.from('temporada').update({ activa: $('sAct').checked, nombre: nom, titulo: $('sTit').value.trim() || nom, mensaje: $('sMsg').value.trim() || null, tema: selTema }).eq('id', 1).select().single();
+    $('sSave').disabled = false;
+    if (r.error) return msg($('sMsgOut'), errText(r.error), 'err');
+    season = r.data; msg($('sMsgOut'), 'Guardado. ' + (season.activa ? 'El catálogo de ' + season.nombre + ' ya está visible.' : 'La temporada está apagada.'), 'ok');
+    renderList();
+  });
+  function stText(){ return 'Conocé el catálogo de ' + ((season && season.nombre) || 'temporada') + ' de Evoria: ' + TEMP_URL; }
+  $('stWa').addEventListener('click', function(){ window.open('https://wa.me/?text=' + encodeURIComponent(stText()), '_blank'); });
+  $('stCopy').addEventListener('click', function(){ navigator.clipboard.writeText(TEMP_URL).then(function(){ toast('Link copiado'); }); });
+  $('stMore').addEventListener('click', function(){
+    if (navigator.share) navigator.share({ title: 'Evoria: ' + ((season && season.nombre) || 'Temporada'), url: TEMP_URL }).catch(function(){});
+    else navigator.clipboard.writeText(TEMP_URL).then(function(){ toast('Link copiado'); });
+  });
+
   /* ---------- sesión ---------- */
   async function boot(){
     var s = (await sb.auth.getSession()).data.session;
     if (!s) return show('vLogin');
     var r = await sb.rpc('is_admin');
     if (r.error || !r.data) return show('vDenied');
-    show('vList'); load();
+    show('vList'); await loadSeason(); load();
   }
   $('fLogin').addEventListener('submit', async function(e){
     e.preventDefault();
@@ -319,7 +424,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     }
     $('bIn').disabled = false;
     if (r.error) return msg($('lMsg'), errText(r.error), 'err');
-    msg($('lMsg'), ''); boot();
+    msg($('lMsg'), 'Listo, entrando…', 'ok');
+    /* recargar hace que Safari ofrezca guardar la contraseña; la sesión queda guardada */
+    setTimeout(function(){ location.replace(location.pathname); }, 150);
   });
   $('bPw').addEventListener('click', async function(){
     var pw = $('newPw').value;
@@ -328,7 +435,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     if (r.error) return toast(errText(r.error));
     $('newPw').value = ''; toast('Contraseña actualizada');
   });
-  async function out(){ await sb.auth.signOut(); rows = []; show('vLogin'); }
+  async function out(){ await sb.auth.signOut(); location.replace(location.pathname); }
   $('bOut').addEventListener('click', out); $('bOut2').addEventListener('click', out);
 
   /* ---------- lista ---------- */
@@ -336,7 +443,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     $('list').innerHTML = '<p class="hint">Cargando…</p>';
     var r = await sb.from('productos').select('*').order('destacado', { ascending:false }).order('orden').order('nombre');
     if (r.error){ $('list').innerHTML = '<p class="msg err">' + esc(errText(r.error)) + '</p>'; return; }
-    rows = r.data; renderList(); fillLists();
+    rows = r.data; renderList(); fillLists(); if (!$('tabTemp').classList.contains('hidden')) renderSeasonList();
   }
   function renderList(){
     var q = $('fq').value.trim().toLowerCase();
@@ -350,6 +457,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
       var img = p.fotos[0] ? '<img src="' + esc(p.fotos[0]) + '" alt="" loading="lazy">' : '<div class="ph">E</div>';
       var st = p.publicado ? '<span class="pill pub">En catálogo</span>' : '<span class="pill draft">Oculto</span>';
       if (p.publicado && p.en_inicio) st += ' <span class="pill pub">En inicio</span>';
+      if (p.en_temporada) st += ' <span class="pill" style="background:rgba(122,46,53,.12);color:#7a2e35">' + esc(season ? season.nombre : 'Temporada') + '</span>';
       if (p.disponibilidad !== 'disponible') st += ' <span class="pill ' + (p.disponibilidad === 'agotado' ? 'out' : 'draft') + '">' + AV[p.disponibilidad] + '</span>';
       return '<button class="item" type="button" data-id="' + p.id + '">' + img +
         '<span><b>' + (p.destacado ? '★ ' : '') + esc(p.nombre) + '</b><span class="meta">' + esc(p.categoria) + (p.aroma ? ' · ' + esc(p.aroma) : '') + '</span><br>' + st + '</span>' +
@@ -400,6 +508,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
     $('ePub').checked = p ? p.publicado : true;
     $('eDest').checked = p ? p.destacado : false;
     $('eHome').checked = p ? p.en_inicio : false;
+    $('eTemp').checked = p ? p.en_temporada : false;
+    if (season) $('eTempLbl').textContent = 'Aparece también en el catálogo de ' + season.nombre;
     $('eOrden').value = p ? p.orden : nextOrder();
     $('eAudit').textContent = p && p.updated_at ? 'Última modificación: ' + new Date(p.updated_at).toLocaleString('es-PY') + (p.updated_by ? ' por ' + p.updated_by : '') : '';
     $('bDel').classList.toggle('hidden', !p); $('bPrev').classList.toggle('hidden', !p); $('bDel').classList.remove('armed'); $('bDel').textContent = 'Eliminar producto';
@@ -483,6 +593,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-2);outline-
       publicado: $('ePub').checked,
       destacado: $('eDest').checked,
       en_inicio: $('eHome').checked && $('ePub').checked,
+      en_temporada: $('eTemp').checked,
       orden: parseInt($('eOrden').value, 10) || 100,
       fotos: fotos
     };

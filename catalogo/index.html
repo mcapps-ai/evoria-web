@@ -110,6 +110,7 @@ dialog::backdrop{background:rgba(43,33,27,.55)}
 .share{border:1px solid var(--ink);padding:12px;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
 .share:hover{background:var(--ink);color:var(--cream)}
 .close{position:absolute;top:10px;right:10px;z-index:2;width:38px;height:38px;border-radius:50%;background:rgba(251,248,243,.95);font-size:1.4rem;line-height:1;box-shadow:0 4px 12px -4px rgba(0,0,0,.3)}
+.hidden{display:none!important}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:10px 18px;font-size:.85rem;opacity:0;transition:opacity .25s;pointer-events:none;z-index:50}
 .toast.show{opacity:1}
 
@@ -118,6 +119,30 @@ footer a{color:var(--ink-2)}
 .wa-float{position:fixed;right:16px;bottom:16px;z-index:30;width:54px;height:54px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.4)}
 .wa-float svg{width:27px;height:27px;fill:#fff}
 
+
+/* temporada */
+.intro{position:relative;overflow:hidden}
+.intro .wrap{position:relative;z-index:1}
+#fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:none}
+[data-tema] #fx{display:block}
+.intro .orn{display:block;margin:0 auto 10px;width:56px;height:56px}
+[data-tema=navidad] .intro{background:radial-gradient(120% 90% at 50% 0%,#7a2e35 0%,#4a1f24 55%,#2e1417 100%)}
+[data-tema=enamorados] .intro{background:radial-gradient(120% 90% at 50% 0%,#b0485f 0%,#7f2c40 55%,#561a2a 100%)}
+[data-tema=padre] .intro{background:radial-gradient(120% 90% at 50% 0%,#3d4b5e 0%,#27313f 60%,#1b222c 100%)}
+[data-tema=madre] .intro{background:radial-gradient(120% 90% at 50% 0%,#f6e3e6 0%,#ecc9cf 100%)}
+[data-tema=primavera] .intro{background:radial-gradient(120% 90% at 50% 0%,#eef3e4 0%,#d7e3c6 100%)}
+[data-tema=navidad] .intro h1,[data-tema=enamorados] .intro h1,[data-tema=padre] .intro h1{color:#fbf3ea}
+[data-tema=navidad] .intro p,[data-tema=enamorados] .intro p,[data-tema=padre] .intro p{color:rgba(251,243,234,.85)}
+[data-tema=navidad] .intro .eyebrow,[data-tema=enamorados] .intro .eyebrow,[data-tema=padre] .intro .eyebrow{color:#e2c48f}
+[data-tema=navidad] .intro .share,[data-tema=enamorados] .intro .share,[data-tema=padre] .intro .share{border-color:#e2c48f;color:#fbf3ea}
+[data-tema=navidad] .intro .share:hover,[data-tema=enamorados] .intro .share:hover,[data-tema=padre] .intro .share:hover{background:#e2c48f;color:#2b211b}
+[data-tema=navidad]{--accent:#7a2e35}[data-tema=enamorados]{--accent:#9b3a52}[data-tema=padre]{--accent:#2f3b4a}[data-tema=madre]{--accent:#b56a78}[data-tema=primavera]{--accent:#5f7a45}
+[data-tema] .chip[aria-pressed="true"]{background:var(--accent,var(--ink));border-color:var(--accent,var(--ink))}
+[data-tema] .badge.star{background:var(--accent,var(--gold))}
+[data-tema=navidad] .card{border-top:3px solid #7a2e35}
+[data-tema=enamorados] .card{border-top:3px solid #b0485f}
+.season-off{text-align:center;padding:70px 16px;color:var(--ink-2)}
+.season-off a{color:var(--gold)}
 @media (max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:720px){
   .grid{grid-template-columns:repeat(2,1fr);gap:12px}
@@ -147,11 +172,12 @@ footer a{color:var(--ink-2)}
   </div>
 </header>
 
-<section class="intro">
+<section class="intro" id="intro">
+  <canvas id="fx" aria-hidden="true"></canvas>
   <div class="wrap">
-    <p class="eyebrow">Catálogo</p>
-    <h1>Aromas para cada momento</h1>
-    <p>Velas, aromatizadores y complementos hechos en Paraguay. Elegí tu producto y pedilo directo por WhatsApp.</p>
+    <p class="eyebrow" id="iEyebrow">Catálogo</p>
+    <h1 id="iTitle">Aromas para cada momento</h1>
+    <p id="iLead">Velas, aromatizadores y complementos hechos en Paraguay. Elegí tu producto y pedilo directo por WhatsApp.</p>
     <button class="share" type="button" id="shareCat" style="margin-top:18px;padding:10px 18px">Compartir catálogo</button>
   </div>
 </section>
@@ -191,7 +217,9 @@ footer a{color:var(--ink-2)}
   var SB_URL = 'https://tpmsauhfxqplyakthgiz.supabase.co';
   var SB_KEY = 'sb_publishable_y5ra12FdfoesI1mlmPnFYQ_QYyY0o8d';
   var WA = '595991856553';
-  var PAGE = 'https://evoria.mcapps.ai/catalogo/';
+  var TEMP = /\/temporada/.test(location.pathname);
+  var PAGE = TEMP ? 'https://evoria.mcapps.ai/temporada/' : 'https://evoria.mcapps.ai/catalogo/';
+  var SEASON = null;
   var WA_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>';
 
   var all = [], cat = 'Todos', q = '';
@@ -203,7 +231,7 @@ footer a{color:var(--ink-2)}
   function link(p){ return PAGE + '?p=' + p.id; }
   function waHref(p){
     var t = 'Hola Evoria, quiero pedir: ' + p.nombre + (p.aroma ? ' (' + p.aroma + ')' : '') +
-      (p.precio != null ? ' · ' + gs(p.precio) : '') + '. Lo vi en el catálogo: ' + link(p);
+      (p.precio != null ? ' · ' + gs(p.precio) : '') + '. Lo vi en el catálogo' + (SEASON ? ' de ' + SEASON.nombre : '') + ': ' + link(p);
     return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(t);
   }
   var AV = { disponible:'Disponible', por_encargo:'Por encargo', agotado:'Agotado' };
@@ -292,7 +320,7 @@ footer a{color:var(--ink-2)}
 
   document.addEventListener('click', function(e){
     var w = e.target.closest('[data-wa]');
-    if (w){ var p = all.find(function(x){ return x.id === w.dataset.wa; }); track('whatsapp_click', { origen: 'Catálogo', producto: p ? p.nombre : '' }); e.stopPropagation(); return; }
+    if (w){ var p = all.find(function(x){ return x.id === w.dataset.wa; }); track('whatsapp_click', { origen: SEASON ? 'Temporada: ' + SEASON.nombre : 'Catálogo', producto: p ? p.nombre : '' }); e.stopPropagation(); return; }
     if (e.target.closest('#waFloat')){ track('whatsapp_click', { origen: 'Catálogo: botón flotante' }); return; }
     var c = e.target.closest('.chip');
     if (c){ cat = c.dataset.cat; chips(); render(); return; }
@@ -305,32 +333,90 @@ footer a{color:var(--ink-2)}
   });
   $('shareCat').addEventListener('click', function(){
     track('share', { item_id: 'catalogo' });
-    if (navigator.share) navigator.share({ title: 'Catálogo Evoria', url: PAGE }).catch(function(){});
+    if (navigator.share) navigator.share({ title: SEASON ? 'Evoria: ' + SEASON.nombre : 'Catálogo Evoria', url: PAGE }).catch(function(){});
     else if (navigator.clipboard) navigator.clipboard.writeText(PAGE).then(function(){ toast('Enlace copiado'); });
   });
   $('q').addEventListener('input', function(){ q = this.value; render(); });
 
+  var ORN = {
+    navidad:'<svg class="orn" viewBox="0 0 64 64" fill="none" stroke="#e2c48f" stroke-width="1.6" stroke-linecap="round"><path d="M32 6v52M9.5 19l45 26M9.5 45l45-26"/><path d="M27 10l5 5 5-5M27 54l5-5 5 5M10 25l7 0-3 6M54 39l-7 0 3-6M10 39l7 0-3-6M54 25l-7 0 3 6"/></svg>',
+    enamorados:'<svg class="orn" viewBox="0 0 64 64"><path d="M32 54S8 40 8 24a12 12 0 0 1 24-4 12 12 0 0 1 24 4c0 16-24 30-24 30z" fill="none" stroke="#e2c48f" stroke-width="1.8"/></svg>',
+    madre:'<svg class="orn" viewBox="0 0 64 64" fill="none" stroke="#b56a78" stroke-width="1.6"><circle cx="32" cy="32" r="5"/><ellipse cx="32" cy="18" rx="6" ry="10"/><ellipse cx="32" cy="46" rx="6" ry="10"/><ellipse cx="18" cy="32" rx="10" ry="6"/><ellipse cx="46" cy="32" rx="10" ry="6"/></svg>',
+    primavera:'<svg class="orn" viewBox="0 0 64 64" fill="none" stroke="#5f7a45" stroke-width="1.6"><path d="M32 58V24"/><path d="M32 36c-10 0-16-8-16-16 10 0 16 8 16 16zM32 30c8 0 14-6 14-14-8 0-14 6-14 14z"/></svg>',
+    padre:'<svg class="orn" viewBox="0 0 64 64" fill="none" stroke="#e2c48f" stroke-width="1.6"><path d="M14 22h36l-4 30H18z"/><path d="M22 22c0-6 4-10 10-10s10 4 10 10"/></svg>'
+  };
+  function fx(tema){
+    var cv = $('fx'), ctx = cv.getContext && cv.getContext('2d');
+    if (!ctx || matchMedia('(prefers-reduced-motion: reduce)').matches || ['navidad','enamorados','madre','primavera'].indexOf(tema) < 0) return;
+    var box = $('intro'), W, H, dpr = Math.min(2, devicePixelRatio || 1), parts = [];
+    function size(){ W = box.clientWidth; H = box.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+    size(); addEventListener('resize', size);
+    var n = Math.round(Math.min(46, W / 14));
+    function mk(top){ return { x: Math.random() * W, y: top ? -10 : Math.random() * H, r: 2 + Math.random() * (tema === 'navidad' ? 2.6 : 5), v: .25 + Math.random() * .55, d: Math.random() * 6.28, o: .35 + Math.random() * .5, g: Math.random() < .3 }; }
+    for (var i = 0; i < n; i++) parts.push(mk(false));
+    function heart(x, y, r){ ctx.beginPath(); ctx.moveTo(x, y + r * .35); ctx.bezierCurveTo(x - r, y - r * .5, x - r * .35, y - r * 1.15, x, y - r * .45); ctx.bezierCurveTo(x + r * .35, y - r * 1.15, x + r, y - r * .5, x, y + r * .35); ctx.fill(); }
+    (function tick(){
+      ctx.clearRect(0, 0, W, H);
+      parts.forEach(function(p, i){
+        p.y += p.v; p.d += .01; p.x += Math.sin(p.d) * .35;
+        if (p.y > H + 10) parts[i] = mk(true);
+        ctx.globalAlpha = p.o;
+        if (tema === 'navidad'){ ctx.fillStyle = p.g ? '#e2c48f' : '#ffffff'; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.28); ctx.fill(); }
+        else if (tema === 'enamorados'){ ctx.fillStyle = p.g ? '#e2c48f' : '#f6c9d3'; heart(p.x, p.y, p.r * 1.6); }
+        else { ctx.fillStyle = tema === 'madre' ? (p.g ? '#d89aa6' : '#f2b8c3') : (p.g ? '#a9c08a' : '#f3d9a2'); ctx.beginPath(); ctx.ellipse(p.x, p.y, p.r, p.r * .55, p.d, 0, 6.28); ctx.fill(); }
+      });
+      ctx.globalAlpha = 1; requestAnimationFrame(tick);
+    })();
+  }
+
+  function loadSeason(){
+    if (!TEMP) return Promise.resolve(null);
+    return fetch(SB_URL + '/rest/v1/temporada?select=activa,nombre,titulo,mensaje,tema&id=eq.1', { headers: hdr })
+      .then(function(r){ return r.ok ? r.json() : []; }).then(function(rows){ return rows[0] || null; });
+  }
   var params = new URLSearchParams(location.search), hdr = { apikey: SB_KEY }, filtro = '&publicado=eq.true';
+  var preview = false;
   if (params.get('preview') === '1'){
     try{
       var tok = JSON.parse(localStorage.getItem('sb-tpmsauhfxqplyakthgiz-auth-token') || 'null');
-      if (tok && tok.access_token){ hdr.Authorization = 'Bearer ' + tok.access_token; filtro = '&id=eq.' + encodeURIComponent(params.get('p') || ''); }
+      if (tok && tok.access_token){ hdr.Authorization = 'Bearer ' + tok.access_token; preview = true; if (params.get('p')) filtro = '&id=eq.' + encodeURIComponent(params.get('p')); }
     }catch(e){}
   }
-  fetch(SB_URL + '/rest/v1/productos?select=id,nombre,descripcion,categoria,aroma,precio,disponibilidad,destacado,orden,fotos' + filtro + '&order=destacado.desc,orden.asc,nombre.asc', {
-    headers: hdr
-  }).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function(rows){
-      all = rows;
-      chips(); render();
-      var id = params.get('p');
-      if (params.get('preview') === '1') document.querySelector('.intro .eyebrow').textContent = 'Vista previa (solo para Evoria)';
-      if (id) open(id);
-    })
-    .catch(function(){
-      $('grid').innerHTML = '<div class="state" style="grid-column:1/-1">No pudimos cargar el catálogo en este momento. <a href="https://wa.me/' + WA + '" target="_blank" rel="noopener">Escribinos por WhatsApp</a> y te pasamos las opciones.</div>';
-      $('count').textContent = '';
-    });
+  loadSeason().then(function(t){
+    if (TEMP){
+      if (!t || (!t.activa && !preview)){
+        $('iEyebrow').textContent = 'Temporada';
+        $('iTitle').textContent = 'Próximamente';
+        $('iLead').textContent = 'Estamos preparando la próxima colección especial. Mientras tanto, conocé todo el catálogo.';
+        $('shareCat').classList.add('hidden'); document.querySelector('.tools').style.display = 'none';
+        $('grid').innerHTML = '<div class="season-off" style="grid-column:1/-1"><a href="../catalogo/">Ver el catálogo completo</a></div>';
+        $('count').textContent = '';
+        return null;
+      }
+      SEASON = t;
+      document.body.setAttribute('data-tema', t.tema);
+      document.title = 'Evoria | ' + t.nombre;
+      $('iEyebrow').textContent = (preview && !t.activa ? 'Vista previa · ' : '') + 'Catálogo de ' + t.nombre;
+      $('iTitle').textContent = t.titulo || t.nombre;
+      $('iLead').textContent = t.mensaje || '';
+      if (ORN[t.tema]) $('iEyebrow').insertAdjacentHTML('beforebegin', ORN[t.tema]);
+      $('waFloat').href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent('Hola Evoria, quisiera consultar por el catálogo de ' + t.nombre + '.');
+      if (!params.get('p') || !preview) filtro = '&publicado=eq.true&en_temporada=eq.true';
+      fx(t.tema);
+    }
+    return fetch(SB_URL + '/rest/v1/productos?select=id,nombre,descripcion,categoria,aroma,precio,disponibilidad,destacado,orden,fotos' + filtro + '&order=destacado.desc,orden.asc,nombre.asc', { headers: hdr })
+      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function(rows){
+        all = rows;
+        chips(); render();
+        var id = params.get('p');
+        if (preview && !TEMP) $('iEyebrow').textContent = 'Vista previa (solo para Evoria)';
+        if (id) open(id);
+      });
+  }).catch(function(){
+    $('grid').innerHTML = '<div class="state" style="grid-column:1/-1">No pudimos cargar el catálogo en este momento. <a href="https://wa.me/' + WA + '" target="_blank" rel="noopener">Escribinos por WhatsApp</a> y te pasamos las opciones.</div>';
+    $('count').textContent = '';
+  });
 })();
 </script>
 </body>
