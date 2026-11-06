@@ -135,10 +135,27 @@ header{position:sticky;top:0;z-index:20;background:rgba(251,248,243,.92);backdro
 .tips li:before{content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--gold)}
 .care .note{font-size:.95rem;color:var(--ink-2);border-left:2px solid var(--gold-2);padding-left:14px}
 @media (max-width:900px){.aromas .wrap,.care .wrap{grid-template-columns:1fr;gap:32px}.aromas,.care{padding:64px 0}}
-.xmas-ribbon{background:#3b1c1f;color:#f4eee6;font-size:.8rem;letter-spacing:.04em;display:flex;justify-content:center;align-items:center;gap:14px;padding:9px 16px;text-align:center}
+.xmas-ribbon{position:relative;z-index:25;background:#5a1e24;color:#fff;font-size:.95rem;font-weight:500;letter-spacing:.03em;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 18px;padding:12px 16px;text-align:center;border-bottom:2px solid var(--gold-2)}
 .xmas-ribbon[hidden]{display:none}
-.xmas-ribbon b{color:var(--gold-2);font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:.74rem}
-.xmas-ribbon a{color:#f4eee6;border-bottom:1px solid var(--gold-2);text-decoration:none;white-space:nowrap}
+.xmas-ribbon b{color:#f1d39a;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:.85rem}
+.xmas-ribbon .xr-links{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.xmas-ribbon a{color:#fff;text-decoration:none;white-space:nowrap;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:7px 14px;border:1px solid #f1d39a;border-radius:2px}
+.xmas-ribbon a.xr-main{background:#f1d39a;color:#3b1c1f}
+.nav a.nav-xmas{color:#7a2a30;font-weight:600;border-bottom:2px solid var(--gold-2)}
+/* sección Navidad en el inicio */
+.season{background:#5a1e24;color:#fff;padding:80px 0}
+.season[hidden],.xmas-only[hidden]{display:none!important}
+.season .eyebrow{color:#f1d39a}
+.season h2{color:#fff}
+.season .lead{color:#f4e6dc}
+.season .grid{grid-template-columns:repeat(4,1fr)}
+.season .card{color:var(--ink)}
+.season .s-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+.btn-gold{background:#f1d39a;color:#3b1c1f}
+.btn-gold:hover{background:#fff}
+.btn-light{border:1px solid #f1d39a;color:#fff}
+.btn-light:hover{background:rgba(255,255,255,.1)}
+@media (max-width:900px){.season .grid{grid-template-columns:repeat(2,1fr)}}
 .xmas-modal{position:fixed;inset:0;z-index:60;background:rgba(43,33,27,.62);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .25s}
 .xmas-modal.open{opacity:1}
 .xmas-modal[hidden]{display:none}
@@ -156,7 +173,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(251,248,243,.92);backdro
 .xm-skip{background:none;border:0;color:var(--ink-2);text-decoration:underline;font:inherit;font-size:.85rem;margin-top:8px;cursor:pointer;padding:6px}
 #xmasSnow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:70;display:none}
 #xmasSnow.on{display:block}
-@media (max-width:640px){.xmas-ribbon{font-size:.72rem;gap:10px;padding:8px 12px}.xmas-ribbon b{letter-spacing:.06em;font-size:.68rem}.xr-long{display:none}.xr-short{display:inline}.xm-card{padding:30px 20px 20px}}
+@media (max-width:640px){.xmas-ribbon{font-size:.85rem;gap:8px;padding:10px 12px}.xmas-ribbon b{letter-spacing:.08em;font-size:.8rem}.xmas-ribbon .xr-links{flex-wrap:nowrap;gap:8px}.xmas-ribbon a{font-size:.66rem;letter-spacing:.06em;padding:6px 9px}.season{padding:56px 0}.season .grid{gap:14px}.xr-long{display:none}.xr-short{display:inline}.xm-card{padding:30px 20px 20px}}
 /* moments */
 .moments{background:var(--wood);color:var(--cream);padding:96px 0}
 .moments h2{color:var(--cream)}
@@ -226,8 +243,8 @@ footer .credit .mcapps:hover{color:var(--gold-2)}
 
 
 <div class="xmas-ribbon" id="xmasRibbon" hidden>
-  <span><b>Navidad Evoria</b><span class="xr-long"> · Velas con aroma a coco para regalar · Pedidos empresariales desde 10 unidades</span><span class="xr-short"> · Regalos con aroma a coco</span></span>
-  <a href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quiero%20velas%20para%20regalar%20en%20Navidad." target="_blank" rel="noopener" data-origen="Navidad: franja">Consultar</a>
+  <span><b>Navidad Evoria</b><span class="xr-long"> · Regalos para familia, amigos y empresas · Pedidos empresariales desde 10 unidades</span><span class="xr-short"> · Empresas desde 10 unidades</span></span>
+  <span class="xr-links"><a class="xr-main" href="temporada/" data-origen="Navidad: franja catálogo">Catálogo de Navidad</a><a href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quiero%20cotizar%20regalos%20empresariales%20para%20Navidad." target="_blank" rel="noopener" data-origen="Navidad: franja empresas">Pedidos empresariales</a></span>
 </div>
 <header>
   <div class="wrap nav">
@@ -236,6 +253,7 @@ footer .credit .mcapps:hover{color:var(--gold-2)}
       <ul>
         <li><a href="#marca">La marca</a></li>
         <li><a href="#productos">Productos</a></li>
+        <li class="xmas-only" hidden><a class="nav-xmas" href="temporada/">Navidad</a></li>
         <li><a href="catalogo/">Catálogo</a></li>
         <li><a href="#aromas">Aromas</a></li>
         <li><a href="#cuidados">Cuidados</a></li>
@@ -256,6 +274,7 @@ footer .credit .mcapps:hover{color:var(--gold-2)}
       <h1>Aromas que evocan recuerdos y crean <em>momentos inolvidables</em>.</h1>
       <p class="lead">Velas aromáticas, wax melts, placas aromáticas, difusores y más. Piezas pensadas para decorar, perfumar y convertirse en un recuerdo para llevar a casa.</p>
       <div class="ctas">
+        <a class="btn btn-dark xmas-only" href="temporada/" hidden>Ver catálogo de Navidad</a>
         <a class="btn btn-dark" href="catalogo/">Conocé la colección</a>
         <a class="btn btn-line" href="https://www.instagram.com/evoriapy/" target="_blank" rel="noopener">Seguinos en Instagram</a>
       </div>
@@ -263,6 +282,21 @@ footer .credit .mcapps:hover{color:var(--gold-2)}
     <div class="hero-img">
       <img src="img/trio-mandarina-vainilla.webp" alt="Velas Evoria Mandarina Vainilla y Champagne Frutilla Vainilla junto a un difusor Frutilla Champagne sobre bandeja de madera" width="863" height="863" fetchpriority="high">
       <div class="tag">Decora · Aromatiza · Recuerda</div>
+    </div>
+  </div>
+</section>
+
+<section class="season" id="navidad" hidden>
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">Edición Navidad</p>
+      <h2>Catálogo de Navidad</h2>
+      <p class="lead">Velas, centros de mesa, combos y detalles aromáticos para regalar estas fiestas.</p>
+    </div>
+    <div class="grid" id="seasonGrid"></div>
+    <div class="s-ctas">
+      <a class="btn btn-gold" href="temporada/" data-origen="Navidad: sección inicio">Ver todo el catálogo de Navidad</a>
+      <a class="btn btn-light" href="https://wa.me/595991856553?text=Hola%20Evoria%2C%20quiero%20cotizar%20regalos%20empresariales%20para%20Navidad." target="_blank" rel="noopener" data-origen="Navidad: empresas inicio">Pedidos empresariales</a>
     </div>
   </div>
 </section>
@@ -553,16 +587,35 @@ footer .credit .mcapps:hover{color:var(--gold-2)}
 </div>
 <canvas id="xmasSnow" aria-hidden="true"></canvas>
 <script>
+/* Navidad en el inicio: toma los productos marcados "En temporada" en el panel */
+function loadSeason(){
+  var sec=document.getElementById('navidad'), grid=document.getElementById('seasonGrid'); if(!sec||!window.fetch) return;
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function gs(n){ return '₲ '+Number(n).toLocaleString('es-PY').replace(/,/g,'.'); }
+  fetch('https://tpmsauhfxqplyakthgiz.supabase.co/rest/v1/productos?select=id,nombre,aroma,precio,disponibilidad,fotos&publicado=eq.true&en_temporada=eq.true&order=destacado.desc,orden.asc,nombre.asc&limit=8',{headers:{apikey:'sb_publishable_y5ra12FdfoesI1mlmPnFYQ_QYyY0o8d'}})
+  .then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(rows){
+    if(!rows.length) return;
+    grid.innerHTML=rows.map(function(p){
+      return '<article class="card"><a href="temporada/?p='+p.id+'" style="color:inherit;text-decoration:none" data-origen="Navidad: producto inicio"><figure>'+(p.fotos&&p.fotos[0]?'<img src="'+esc(p.fotos[0])+'" alt="'+esc(p.nombre)+'" loading="lazy">':'')+'</figure>'+
+        '<div class="body">'+(p.aroma?'<span class="aroma">'+esc(p.aroma)+'</span>':'')+'<h3>'+esc(p.nombre)+'</h3>'+
+        '<span class="price">'+(p.disponibilidad==='agotado'?'Agotado':p.precio!=null?gs(p.precio):'Consultar precio')+'</span></div></a></article>';
+    }).join('');
+    sec.hidden=false;
+  }).catch(function(){});
+}
 (function(){
   var END=new Date('2026-12-16T00:00:00-03:00');
   if(new Date()>=END) return;
   var ribbon=document.getElementById('xmasRibbon'), modal=document.getElementById('xmasModal'), cv=document.getElementById('xmasSnow');
   ribbon.hidden=false;
+  document.querySelectorAll('.xmas-only').forEach(function(el){ el.hidden=false; });
+  loadSeason();
+  var tc=document.querySelector('meta[name=theme-color]'); if(tc) tc.setAttribute('content','#5a1e24');
   var lastFocus=null;
   function closeModal(){ modal.classList.remove('open'); setTimeout(function(){modal.hidden=true;},250); document.removeEventListener('keydown',onKey); if(lastFocus) lastFocus.focus(); }
   function onKey(e){ if(e.key==='Escape') closeModal(); }
   modal.querySelector('.xm-close').addEventListener('click',closeModal);
-  modal.querySelector('.xm-skip').addEventListener('click',function(){ closeModal(); var p=document.getElementById('productos'); if(p) p.scrollIntoView({behavior:'smooth'}); });
+  
   modal.addEventListener('click',function(e){ if(e.target===modal) closeModal(); });
   setTimeout(function(){
     lastFocus=document.activeElement; modal.hidden=false; requestAnimationFrame(function(){modal.classList.add('open');});
